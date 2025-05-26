@@ -1,0 +1,35 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Node.js dependencies
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Editor directories and files
+.vscode/
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Project specific additions for backend and other files
+.env                 # Ignore environment variables file
+build/               # Common build output folder for React
+# If your backend also has a node_modules folder:
+backend/node_modules/
+# If your backend uses Composer for PHP dependencies:
+backend/vendor/
+# Any log files specific to your backend (e.g., openai_debug.log)
+backend/*.log

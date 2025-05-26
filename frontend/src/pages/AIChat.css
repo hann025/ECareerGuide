@@ -1,0 +1,360 @@
+/* Reset and Base Styles */
+/* Apply box-sizing globally for consistent box model behavior */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%; /* Explicitly set height to 100% */
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif; /* Consistent font */
+  background: linear-gradient(135deg, #f6e8ff, #f3d8ff); /* Base background for the whole page */
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  /* overflow-y is now handled by #root */
+}
+
+#root {
+  height: 100%; /* Make #root fill the entire body height */
+  display: flex; /* Make #root a flex container */
+  flex-direction: column; /* Stack its children vertically */
+  overflow-y: auto; /* THIS IS THE MAIN PAGE SCROLLBAR */
+  /* outline: 2px solid black; /* DEBUG: Outline for #root */
+}
+
+/* Bubbles Background (matches dashboard) */
+.ai-chat-wrapper::before {
+  content: '';
+  position: absolute; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle, rgba(255, 255, 255, 0.2) 20px, transparent 20px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.1) 15px, transparent 15px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.15) 25px, transparent 25px);
+  background-size: 100px 100px;
+  animation: floatBubbles 60s linear infinite;
+  z-index: -1; /* Place behind content */
+  pointer-events: none;
+}
+
+@keyframes floatBubbles {
+  0% { transform: translateY(0) translateX(0); }
+  100% { transform: translateY(-50%) translateX(-25%); }
+}
+
+/* Main Wrapper */
+.ai-chat-wrapper {
+  position: relative;
+  flex: 1; /* Make it grow to fill available space in #root */
+  display: flex; /* Make it a flex container */
+  flex-direction: column; /* Stack its children vertically */
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+  padding: 20px; /* Keep padding here for overall page margin */
+  overflow: hidden; /* Hide overflow for the wrapper itself */
+  /* outline: 2px solid yellow; /* DEBUG: Outline for .ai-chat-wrapper */
+}
+
+/* Container for the chat card */
+.ai-chat-container {
+  width: 100%;
+  max-width: 900px;
+  height: 100%; /* Make it fill the height of .ai-chat-wrapper */
+  /* Removed flex: 1; and min-height: 600px; to allow max-height on card */
+  display: flex; /* Make it a flex container */
+  justify-content: center; /* Center card horizontally */
+  align-items: center; /* Center card vertically */
+  margin: auto; /* Center it horizontally and vertically */
+  position: relative;
+  z-index: 1;
+  /* outline: 2px solid blue; /* DEBUG: Outline for .ai-chat-container */
+}
+
+/* Glass Card (updated colors to match dashboard) */
+.ai-chat-glass-card {
+  width: 100%;
+  padding: 0; /* Remove padding here, it's applied to inner elements */
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 10px 30px rgba(167, 119, 227, 0.2);
+  /* CRUCIAL: Make the entire card scrollable */
+  max-height: calc(100vh - 80px); /* Max height of card, accounting for wrapper padding and back button */
+  overflow-y: auto; /* THIS IS THE CHAT BOX SCROLLBAR */
+  /* outline: 2px solid green; /* DEBUG: Outline for .ai-chat-glass-card */
+}
+
+/* Header (matches dashboard gradient) */
+.chat-header {
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #a777e3, #e48fe8);
+  display: flex;
+  justify-content: center; /* Center the title now that button is outside */
+  align-items: center;
+  position: relative;
+  flex-shrink: 0; /* Prevent header from shrinking */
+  z-index: 2;
+  height: 60px; /* Explicit height for header */
+  /* outline: 2px solid red; /* DEBUG: Outline for .chat-header */
+}
+
+/* Back Button - positioned absolutely relative to .ai-chat-wrapper */
+.back-button {
+  position: absolute;
+  top: 40px; /* 20px from wrapper padding + 20px offset */
+  left: 40px; /* 20px from wrapper padding + 20px offset */
+  background: linear-gradient(135deg, #a777e3, #e48fe8);
+  border: none;
+  color: white;
+  border-radius: 8px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  transition: all 0.3s;
+  z-index: 10; /* Ensure it's above the chat card */
+}
+
+.back-button:hover {
+  background: linear-gradient(135deg, #9b6bd1, #d87fe0); /* Darker hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(167, 119, 227, 0.3);
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  font-weight: 600;
+  font-size: 1.2rem;
+  position: static;
+  transform: none;
+}
+
+/* Messages Container */
+.messages-container {
+  /* Removed flex: 1; and min-height: 0; */
+  /* Removed overflow-y: auto; as it's now on the parent card */
+  padding: 20px; /* Keep padding for messages content */
+  background: transparent;
+  /* Scrollbar styles still apply to the element that has overflow: auto */
+  scrollbar-width: thin;
+  scrollbar-color: #a777e3 #f3d8ff;
+  /* outline: 2px solid purple; /* DEBUG: Outline for .messages-container */
+}
+
+.messages-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+  background: rgba(243, 216, 255, 0.5);
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+  background: rgba(167, 119, 227, 0.6);
+  border-radius: 4px;
+}
+
+/* Welcome Message */
+.welcome-message {
+  text-align: center;
+  padding: 40px 20px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 16px;
+  margin: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(167, 119, 227, 0.1);
+}
+
+.welcome-message h3 {
+  color: #5c2d91;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.welcome-message .ant-typography-secondary {
+  color: #7e57a1;
+}
+
+/* Quick Actions */
+.quick-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.quick-action {
+  padding: 12px 20px;
+  border-radius: 50px;
+  background: rgba(167, 119, 227, 0.1);
+  border: 1px solid rgba(167, 119, 227, 0.2);
+  color: #5c2d91;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.quick-action:hover {
+  background: rgba(167, 119, 227, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(167, 119, 227, 0.1);
+}
+
+/* Message Bubbles */
+.message {
+  display: flex;
+  margin-bottom: 16px;
+  max-width: 80%;
+}
+
+.message.ai {
+  align-self: flex-start;
+}
+
+.message.user {
+  align-self: flex-end;
+}
+
+.message-content {
+  margin: 0 12px;
+}
+
+.message-text {
+  padding: 12px 16px;
+  border-radius: 18px;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+.message.ai .message-text {
+  background: white;
+  border-radius: 0 18px 18px 18px;
+  color: #2c3e50;
+  border: 1px solid rgba(167, 119, 227, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.message.user .message-text {
+  background: linear-gradient(135deg, #a777e3, #e48fe8);
+  color: white;
+  border-radius: 18px 0 18px 18px;
+  box-shadow: 0 4px 12px rgba(167, 119, 227, 0.3);
+}
+
+.avatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-avatar {
+  background: linear-gradient(135deg, #a777e3, #e48fe8);
+}
+
+/* Input Area */
+.input-area {
+  padding: 16px 24px;
+  background: white;
+  border-top: 1px solid rgba(167, 119, 227, 0.1);
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0; /* Prevent input area from shrinking */
+  height: 80px; /* Explicit height for input area */
+  /* outline: 2px solid orange; /* DEBUG: Outline for .input-area */
+}
+
+.chat-input {
+  flex: 1;
+  border-radius: 50px;
+  padding: 12px 24px;
+  border: 1px solid rgba(167, 119, 227, 0.3);
+  transition: all 0.3s;
+  font-size: 15px;
+}
+
+.chat-input:focus {
+  border-color: #a777e3;
+  box-shadow: 0 0 0 2px rgba(167, 119, 227, 0.2);
+}
+
+/* Circular Send Button */
+.send-button {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a777e3, #e48fe8);
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(167, 119, 227, 0.3);
+}
+
+.send-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(167, 119, 227, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .ai-chat-container {
+    height: 100vh; /* On small screens, let it take full viewport height */
+    min-height: unset;
+    border-radius: 0;
+    margin-top: 0; /* Remove top margin on smaller screens */
+    margin-bottom: 0; /* Remove bottom margin on smaller screens */
+  }
+  
+  .back-button {
+    top: 20px; /* Adjust for smaller screens */
+    left: 20px;
+    padding: 6px 12px;
+    font-size: 0.9em;
+  }
+
+  .welcome-message {
+    padding: 30px 15px;
+    margin: 15px;
+  }
+  
+  .quick-action {
+    padding: 10px 16px;
+  }
+  
+  .input-area {
+    padding: 12px 16px;
+    height: auto; /* Allow height to adjust on smaller screens */
+  }
+  
+  .chat-input {
+    padding: 10px 20px;
+  }
+  
+  .send-button {
+    width: 44px;
+    height: 44px;
+  }
+}

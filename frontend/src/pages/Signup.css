@@ -1,0 +1,206 @@
+/* General body/html styling for full height */
+html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif; /* Using Inter font as per instructions */
+}
+
+/* Base Styles */
+.signup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Changed from height: 100vh to allow content to push height */
+    position: relative;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    overflow-y: auto;   /* Allow vertical scrolling for the container */
+    background: linear-gradient(135deg, #f6e8ff, #f3d8ff);
+    padding: 20px; /* Added padding to ensure card doesn't touch edges */
+}
+
+/* Bubbles Background (matches dashboard) */
+.bubbles-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.bubbles-background::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.2) 20px, transparent 20px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.1) 15px, transparent 15px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.15) 25px, transparent 25px);
+    background-size: 100px 100px;
+    animation: floatBubbles 60s linear infinite;
+}
+
+@keyframes floatBubbles {
+    0% { transform: translateY(0) translateX(0); }
+    100% { transform: translateY(-50%) translateX(-25%); }
+}
+
+/* Glass Morphism Card */
+.signup-card {
+    width: 420px;
+    padding: 40px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px rgba(167, 119, 227, 0.2);
+    z-index: 1;
+    transition: all 0.5s ease;
+    /* Added for scrolling */
+    max-height: calc(100vh - 40px); /* Max height of card, accounting for container padding */
+    overflow-y: auto; /* Enable scrolling within the card */
+}
+
+.signup-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to bottom right,
+        rgba(167, 119, 227, 0.1),
+        rgba(231, 142, 232, 0.1)
+    );
+    transform: rotate(45deg);
+    z-index: -1;
+}
+
+/* Logo Styling */
+.logo {
+    margin-bottom: 30px;
+    text-align: center;
+    animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Form Styling */
+.signup-form {
+    margin-top: 20px;
+}
+
+.signup-input {
+    border-radius: 12px;
+    padding: 12px 15px;
+    border: 1px solid rgba(167, 119, 227, 0.3);
+    transition: all 0.3s ease;
+    margin-bottom: 16px;
+}
+
+.signup-input:hover,
+.signup-input:focus {
+    border-color: #a777e3;
+    box-shadow: 0 0 0 2px rgba(167, 119, 227, 0.2);
+}
+
+.signup-input .ant-input-prefix {
+    margin-right: 8px;
+}
+
+/* Ant Design specific adjustments for inputs within the form */
+.signup-form .ant-input-affix-wrapper,
+.signup-form .ant-select-selector,
+.signup-form .ant-input-number {
+    border-radius: 12px;
+    padding: 12px 15px;
+    border: 1px solid rgba(167, 119, 227, 0.3);
+    transition: all 0.3s ease;
+    margin-bottom: 16px; /* This might be redundant if Form.Item handles it */
+}
+
+.signup-form .ant-input-affix-wrapper:hover,
+.signup-form .ant-input-affix-wrapper:focus-within,
+.signup-form .ant-select-selector:hover,
+.signup-form .ant-select-selector:focus,
+.signup-form .ant-input-number:hover,
+.signup-form .ant-input-number:focus-within {
+    border-color: #a777e3 !important;
+    box-shadow: 0 0 0 2px rgba(167, 119, 227, 0.2) !important;
+}
+
+/* Signup Button */
+.signup-button {
+    width: 100%;
+    height: 45px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #a777e3, #e48fe8);
+    border: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.signup-button:hover {
+    background: linear-gradient(135deg, #9b6bd1, #d87fe0);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(167, 119, 227, 0.4);
+}
+
+.signup-button:active {
+    transform: translateY(0);
+}
+
+/* Login Link */
+.login-link {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.login-link-text {
+    color: #a777e3;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.login-link-text:hover {
+    text-decoration: underline;
+    color: #8e5fd3;
+}
+
+/* Success Animation */
+.card-success-animation {
+    animation: successPulse 1s ease;
+}
+
+@keyframes successPulse {
+    0% { transform: scale(1); box-shadow: 0 8px 32px rgba(167, 119, 227, 0.2); }
+    50% { transform: scale(1.02); box-shadow: 0 12px 40px rgba(167, 119, 227, 0.3); }
+    100% { transform: scale(1); box-shadow: 0 8px 32px rgba(167, 119, 227, 0.2); }
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .signup-card {
+        width: 90%;
+        padding: 30px 20px;
+    }
+
+    .signup-button {
+        height: 50px;
+    }
+}

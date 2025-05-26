@@ -1,0 +1,311 @@
+/* General body/html styling for full height */
+html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+.institutions-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f6e8ff, #f3d8ff); /* Base background for the whole container */
+    position: relative;
+    overflow: hidden; /* Ensures bubbles are clipped at container edges */
+    display: flex;
+    flex-direction: column;
+}
+
+.institutions-content {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 40px 20px; /* Padding for content */
+    position: relative; /* Crucial: Positioning context for pseudo-element */
+    z-index: 1; /* Ensure content is above the bubbles */
+    background-color: rgba(255, 255, 255, 0.7); /* Light overlay for readability */
+}
+
+/* Bubbles Background - Applied as a pseudo-element on .institutions-content */
+.institutions-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.2) 20px, transparent 20px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.1) 15px, transparent 15px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.15) 25px, transparent 25px);
+    background-size: 100px 100px;
+    animation: floatBubbles 60s linear infinite;
+    z-index: -1; /* Place behind the content */
+    pointer-events: none; /* Ensure it doesn't interfere with clicks */
+}
+
+@keyframes floatBubbles {
+    0% { transform: translateY(0) translateX(0); }
+    100% { transform: translateY(-50%) translateX(-25%); } /* Consistent animation */
+}
+
+.back-button {
+    position: absolute; /* Absolute positioning relative to .institutions-container */
+    top: 20px;
+    left: 20px;
+    background: linear-gradient(135deg, #a777e3, #e48fe8); /* Use gradient for consistency */
+    border: none; /* Remove border */
+    color: white; /* Text color */
+    border-radius: 8px;
+    padding: 8px 15px;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10; /* Ensure it's above other content */
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(167, 119, 227, 0.3);
+    opacity: 0.9;
+}
+
+.header-section {
+    text-align: center;
+    margin-bottom: 40px; /* Adjusted margin for search bar */
+    padding-top: 60px; /* Space for the back button to not overlap title */
+    position: relative;
+    z-index: 2; /* Ensure header content is above bubbles */
+}
+
+.page-title {
+    color: #5c2d91 !important;
+    font-size: 2.8em !important; /* Larger title */
+    font-weight: 700 !important; /* Bolder */
+    margin-bottom: 10px !important;
+}
+
+.page-subtitle {
+    display: block; /* Ensure it behaves as a block for margin */
+    color: #7e57a1 !important;
+    font-size: 1.1em !important; /* Slightly larger subtitle */
+    margin-bottom: 30px; /* Increased space before search bar */
+}
+
+.institution-search-bar {
+    max-width: 500px;
+    margin: 0 auto;
+    /* Removed margin-top here, as page-subtitle's margin-bottom handles spacing */
+    border-radius: 10px;
+    overflow: hidden; /* Ensures search button is within rounded corners */
+}
+
+.institution-search-bar .ant-input-wrapper {
+    border-radius: 10px;
+}
+
+.institution-search-bar .ant-input-group-addon {
+    background: linear-gradient(135deg, #a777e3, #e48fe8);
+    border: none;
+    border-radius: 0 10px 10px 0;
+}
+
+.institution-search-bar .ant-input-search-button {
+    height: 40px; /* Match input height */
+    border-radius: 0 10px 10px 0 !important;
+}
+
+.institutions-grid {
+    justify-content: center;
+    align-items: stretch; /* Ensure cards in a row have same height */
+}
+
+.institution-card {
+    height: 100%;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.9); /* Slightly more opaque background */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(167, 119, 227, 0.2);
+    box-shadow: 0 8px 24px rgba(167, 119, 227, 0.1);
+    transition: all 0.3s ease;
+    padding: 25px; /* Increased padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribute space to push button to bottom */
+}
+
+.institution-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 28px rgba(167, 119, 227, 0.2);
+}
+
+.institution-name {
+    color: #5c2d91 !important;
+    font-weight: 600 !important;
+    margin-bottom: 10px !important;
+    font-size: 1.4em !important;
+}
+
+.institution-location {
+    display: block;
+    color: #7e57a1 !important;
+    font-size: 0.95em !important;
+    margin-bottom: 10px !important;
+}
+
+.ranking-badge {
+    background: linear-gradient(45deg, #e48fe8, #a777e3);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9em;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.programs-title {
+    display: block;
+    color: #5c2d91 !important;
+    font-weight: 600 !important;
+    margin-top: 10px !important;
+    margin-bottom: 5px !important;
+    font-size: 1em !important;
+}
+
+.programs-list {
+    color: #666 !important;
+    font-size: 0.9em !important;
+    line-height: 1.5;
+    flex-grow: 1; /* Allows programs list to take available space */
+    margin-bottom: 20px !important; /* Increased margin for spacing before tags/button */
+}
+
+.institution-tags {
+    margin-top: 10px;
+    margin-bottom: 20px; /* Increased margin to push button down */
+}
+
+.institution-tags .ant-tag {
+    border-radius: 5px;
+    font-size: 0.8em;
+    padding: 4px 8px;
+    background-color: rgba(167, 119, 227, 0.1); /* Light purple tag background */
+    color: #5c2d91; /* Darker purple text */
+    border: 1px solid rgba(167, 119, 227, 0.3);
+}
+
+
+.explore-button {
+    width: 100%;
+    background: linear-gradient(135deg, #a777e3, #e48fe8) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    height: 40px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    margin-top: auto; /* Pushes the button to the bottom of the flex container */
+}
+
+.explore-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(167, 119, 227, 0.3);
+    opacity: 0.95;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .institutions-content {
+        padding: 30px 15px;
+    }
+
+    .page-title {
+        font-size: 2.2em !important;
+    }
+
+    .page-subtitle {
+        font-size: 1em !important;
+    }
+
+    .back-button {
+        top: 15px;
+        left: 15px;
+        padding: 6px 12px;
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 768px) {
+    .institutions-content {
+        padding: 20px 10px;
+    }
+
+    .header-section {
+        padding-top: 50px;
+        margin-bottom: 30px;
+    }
+
+    .page-title {
+        font-size: 1.8em !important;
+    }
+
+    .page-subtitle {
+        font-size: 0.9em !important;
+    }
+
+    .institution-card {
+        padding: 20px;
+    }
+
+    .institution-name {
+        font-size: 1.2em !important;
+    }
+
+    .ranking-badge {
+        padding: 5px 10px;
+        font-size: 0.85em;
+    }
+
+    .programs-title, .programs-list {
+        font-size: 0.85em !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .institutions-content {
+        padding: 15px 8px;
+    }
+
+    .header-section {
+        padding-top: 40px;
+        margin-bottom: 20px;
+    }
+
+    .page-title {
+        font-size: 1.5em !important;
+    }
+
+    .page-subtitle {
+        font-size: 0.8em !important;
+    }
+
+    .back-button {
+        top: 10px;
+        left: 10px;
+        padding: 5px 10px;
+        font-size: 0.8em;
+    }
+
+    .institution-card {
+        padding: 15px;
+    }
+
+    .explore-button {
+        height: 36px !important;
+        font-size: 0.9em !important;
+    }
+}

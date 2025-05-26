@@ -1,0 +1,268 @@
+/* General body/html styling for full height */
+html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif; /* Using Inter font as per instructions */
+}
+
+.message-counselor-container {
+    position: relative;
+    padding: 20px;
+    min-height: 100vh; /* Ensure it takes full viewport height */
+    display: flex; /* Use flexbox to center content */
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #f6e8ff, #f3d8ff);
+    overflow: hidden;
+}
+
+.bubbles-background {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.2) 20px, transparent 20px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.1) 15px, transparent 15px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.15) 25px, transparent 25px);
+    background-size: 100px 100px;
+    animation: floatBubbles 60s linear infinite;
+    z-index: 0;
+    pointer-events: none;
+}
+
+@keyframes floatBubbles {
+    0% { transform: translateY(0) translateX(0); }
+    100% { transform: translateY(-50%) translateX(-25%); }
+}
+
+.message-card {
+    position: relative;
+    z-index: 1;
+    width: 100%; /* Allow full width on smaller screens */
+    max-width: 600px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(167, 119, 227, 0.2);
+    display: flex;
+    flex-direction: column;
+    /* Adjusted height for better responsiveness and input visibility */
+    min-height: 70vh; /* Minimum height for the card */
+    height: auto; /* Allow height to adjust based on content */
+    max-height: 90vh; /* Prevent card from becoming too tall on very large screens */
+    overflow: hidden; /* Ensures content inside doesn't overflow the rounded corners */
+}
+
+.message-header {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, #a777e3, #e48fe8);
+    color: white;
+    border-radius: 12px 12px 0 0;
+}
+
+.counselor-avatar {
+    background: white;
+    color: #a777e3;
+    margin-right: 12px;
+    border-radius: 50%; /* Ensure rounded avatar */
+}
+
+.header-text {
+    flex: 1;
+}
+
+.header-text h3 {
+    color: white;
+    margin-bottom: 0;
+    font-size: 16px;
+    display: flex; /* For icon alignment */
+    align-items: center;
+}
+
+.header-text .ant-typography {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 12px;
+}
+
+.ai-icon {
+    font-size: 24px;
+    opacity: 0.8;
+    color: white; /* Ensure icon is visible against gradient */
+}
+
+.chat-container {
+    flex: 1; /* Allows chat container to take available space */
+    padding: 16px;
+    overflow-y: auto; /* Enables vertical scrolling when content overflows */
+    background: #faf9ff;
+    display: flex; /* Use flex for message stacking */
+    flex-direction: column;
+    gap: 12px; /* Space between messages */
+    scroll-behavior: smooth;
+}
+
+.empty-chat {
+    text-align: center;
+    padding: 50px;
+    color: #888;
+}
+
+.chat-message {
+    display: flex;
+    margin-bottom: 0; /* Gap is handled by flex container */
+}
+
+.chat-message.user {
+    justify-content: flex-end; /* Align user messages to the right */
+}
+
+.chat-message.counselor {
+    justify-content: flex-start; /* Align counselor messages to the left */
+}
+
+.message-bubble {
+    padding: 10px 14px;
+    border-radius: 18px;
+    max-width: 75%;
+    position: relative;
+    font-size: 14px;
+    word-wrap: break-word; /* Ensure long words break */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Subtle shadow for bubbles */
+}
+
+.user .message-bubble { /* Specific styling for user's bubble */
+    background: linear-gradient(135deg, #a777e3, #e48fe8); /* User's gradient */
+    color: white;
+    border-bottom-right-radius: 4px; /* Pointed corner for user */
+    margin-left: auto; /* Push to right */
+}
+
+.counselor .message-bubble { /* Specific styling for counselor's bubble */
+    background: #f0e6ff; /* Light purple for counselor */
+    color: #333;
+    border-top-left-radius: 4px;
+    margin-right: auto; /* Push to left */
+}
+
+.message-time {
+    font-size: 10px;
+    color: rgba(0, 0, 0, 0.5); /* Default time color */
+    margin-top: 4px;
+    text-align: right;
+}
+
+.user .message-time {
+    color: rgba(255, 255, 255, 0.7); /* Lighter time for user bubble */
+}
+
+.counselor .message-time {
+    text-align: left;
+}
+
+.message-reply {
+    background-color: rgba(255, 255, 255, 0.2); /* Slightly transparent white for reply bubble */
+    border-radius: 8px;
+    padding: 8px;
+    margin-top: 8px;
+    font-size: 0.9em;
+    color: inherit; /* Inherit color from parent bubble */
+}
+
+.message-reply .ant-typography {
+    color: inherit !important; /* Ensure Ant Design Typography also inherits color */
+}
+
+
+.message-input-wrapper {
+    padding: 8px 12px;
+    background: white;
+    border-top: 1px solid #f0f0f0;
+    border-radius: 0 0 12px 12px;
+    flex-shrink: 0; /* Prevent input from shrinking */
+}
+
+.message-input-box {
+    display: flex;
+    align-items: flex-end; /* Align items to bottom for growing textarea */
+    background: #f5f5f5;
+    border-radius: 20px;
+    padding: 4px 4px 4px 12px;
+}
+
+.message-textarea {
+    flex: 1;
+    border: none;
+    background: transparent;
+    resize: none;
+    padding: 8px 8px 8px 0;
+    font-size: 14px;
+    min-height: 40px; /* Minimum height for textarea */
+    max-height: 100px; /* Maximum height for textarea before scrolling */
+    outline: none;
+    box-shadow: none !important;
+    line-height: 1.5; /* Adjust line height for better appearance */
+}
+
+.send-button {
+    background: linear-gradient(135deg, #a777e3, #e48fe8);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    min-width: 36px; /* Ensure fixed width */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    margin-left: 8px; /* Space between textarea and button */
+}
+
+.send-button:hover {
+    background: linear-gradient(135deg, #9b6bd1, #d87fe0);
+    transform: scale(1.05);
+}
+
+.send-button:active {
+    transform: scale(0.95);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .message-counselor-container {
+        padding: 12px;
+    }
+
+    .message-card {
+        min-height: 80vh; /* Adjust min-height for mobile */
+        max-height: none; /* Allow full height on small screens if needed */
+        border-radius: 0; /* Full width on small screens */
+        box-shadow: none;
+    }
+
+    .message-header {
+        padding: 10px 12px;
+    }
+
+    .header-text h3 {
+        font-size: 1.1em;
+    }
+
+    .ai-icon {
+        font-size: 2em;
+    }
+
+    .chat-container {
+        padding: 12px;
+    }
+
+    .message-bubble {
+        max-width: 85%;
+    }
+
+    .message-input-wrapper {
+        padding: 10px 15px;
+    }
+}

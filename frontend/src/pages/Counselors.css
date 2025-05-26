@@ -1,0 +1,203 @@
+/* General body/html styling for full height */
+html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif; /* Using Inter font as per instructions */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    overflow-y: auto; /* Allow main page scroll for the entire document */
+}
+
+.counselors-container {
+    position: relative;
+    padding: 32px 24px; /* Adjusted padding for overall page */
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f6e8ff, #f3d8ff);
+    /* Removed overflow: hidden; to allow content to scroll */
+    /* overflow-x: hidden; */ /* Keep horizontal overflow hidden if desired */
+}
+
+/* Bubbles Background */
+.counselors-container::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.2) 20px, transparent 20px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.1) 15px, transparent 15px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.15) 25px, transparent 25px);
+    background-size: 100px 100px;
+    animation: floatBubbles 60s linear infinite;
+    z-index: 0;
+    pointer-events: none;
+}
+
+@keyframes floatBubbles {
+    0% { transform: translateY(0) translateX(0); }
+    100% { transform: translateY(-50%) translateX(-25%); }
+}
+
+/* Consistent Card Sizing */
+.counselor-card {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 24px 16px;
+    height: 100%; /* Ensures cards in a row have equal height */
+    min-height: 280px; /* Fixed minimum height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Pushes action buttons to the bottom */
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(167, 119, 227, 0.2);
+    transition: all 0.3s ease;
+}
+
+/* Fixed Button Colors (Purple Gradient) */
+.action-buttons .ant-btn {
+    border-radius: 20px;
+    background: linear-gradient(135deg, #a777e3, #e48fe8);
+    border: none;
+    color: white; /* Ensure text color is white */
+    height: 40px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.action-buttons .ant-btn:hover {
+    background: linear-gradient(135deg, #9b6bd1, #d87fe0);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(167, 119, 227, 0.4);
+}
+
+.action-buttons .ant-btn span {
+    color: white !important; /* Ensure text color is white even with Ant Design overrides */
+}
+
+.action-buttons .ant-btn .anticon {
+    margin-right: 8px;
+}
+
+/* Ensure equal height for all cards in a row */
+.ant-col {
+    display: flex;
+}
+
+/* Avatar Styling */
+.counselor-card .ant-avatar {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 16px; /* Center avatar and add bottom margin */
+    background: linear-gradient(135deg, #a777e3, #e48fe8);
+    transition: all 0.3s ease;
+}
+
+/* Text Content Styling */
+.counselor-card .ant-typography {
+    margin-bottom: 16px;
+    flex-grow: 1; /* Allows text content to take available space */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centers text vertically if there's extra space */
+}
+
+.counselor-card h4.ant-typography {
+    color: #5c2d91;
+    margin-bottom: 8px;
+    font-size: 1.4em; /* Slightly larger for better readability */
+}
+
+.counselor-card .ant-typography-secondary {
+    color: #7e57a1;
+    font-size: 0.95em; /* Slightly smaller for secondary info */
+}
+
+/* Button Container */
+.action-buttons {
+    margin-top: auto; /* Pushes buttons to bottom of the flex column */
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically by default */
+    gap: 8px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .counselors-container {
+        padding: 20px 10px; /* Adjust overall padding for tablets/larger phones */
+    }
+
+    .counselor-card {
+        min-height: 250px; /* Slightly reduced min-height for mobile */
+        padding: 20px 12px; /* Adjusted padding inside the card */
+    }
+
+    .counselor-card .ant-avatar {
+        width: 70px; /* Smaller avatar */
+        height: 70px;
+    }
+
+    .counselor-card h4.ant-typography {
+        font-size: 1.3em; /* Adjusted font size for name */
+    }
+
+    .counselor-card .ant-typography-secondary {
+        font-size: 0.9em; /* Adjusted font size for secondary text */
+    }
+
+    .action-buttons {
+        flex-direction: row; /* Arrange buttons side-by-side on smaller screens */
+        justify-content: center; /* Center buttons */
+        flex-wrap: wrap; /* Allow buttons to wrap if needed */
+    }
+
+    .action-buttons .ant-btn {
+        width: 48%; /* Make buttons take roughly half width */
+        height: 38px; /* Slightly smaller button height */
+        padding: 0 10px; /* Adjust padding */
+        font-size: 0.9em; /* Smaller button text */
+    }
+}
+
+@media (max-width: 480px) { /* Adjustments for very small phones */
+    .counselors-container {
+        padding: 10px 5px; /* Minimal overall padding */
+    }
+
+    .counselor-card {
+        min-height: 240px; /* Further reduced min-height */
+        padding: 15px 10px; /* Even less padding inside the card */
+        border-radius: 8px; /* Slightly less rounded corners */
+    }
+
+    .counselor-card .ant-avatar {
+        width: 60px; /* Even smaller avatar */
+        height: 60px;
+        margin-bottom: 12px;
+    }
+
+    .counselor-card h4.ant-typography {
+        font-size: 1.2em; /* Further adjusted font size for name */
+    }
+
+    .counselor-card .ant-typography-secondary {
+        font-size: 0.85em; /* Further adjusted font size for secondary text */
+    }
+
+    .action-buttons {
+        flex-direction: column; /* Stack buttons vertically again on very small screens */
+        gap: 6px;
+    }
+
+    .action-buttons .ant-btn {
+        width: 90%; /* Make buttons almost full width */
+        height: 36px; /* Smallest button height */
+        font-size: 0.85em; /* Smallest button text */
+    }
+}
