@@ -6,9 +6,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', 0); // Crucial: Set to 0 to prevent warnings/errors from appearing in API response body
 
 // Set CORS headers
-header("Access-Control-Allow-Origin: *");
+header('Access-Control-Allow-Origin: http://localhost:5173'); // Adjust for your frontend domain
 header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Ensure Authorization header is allowed
 header('Content-Type: application/json'); // Crucial: tell the client to expect JSON
 
 // Handle pre-flight OPTIONS request
@@ -18,7 +18,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 try {
-    require '../db_connect.php'; // Include your database connection
+    require_once __DIR__ . '/../db_connect.php'; // Include your database connection
+    require_once __DIR__ . '/jwt_helper.php';   // Include your JWT helper functions
+
+    // Global PDO object from db_connect.php
+    global $pdo;
+
+    // Authenticate the user. This is a user-facing route,
+    // so we pass 'false' to update their last_activity_at timestamp.
+    $user_id_from_auth = authenticate_user_from_jwt($pdo, false);
 
     // Get the raw POST data
     $json_data = file_get_contents("php://input");
@@ -33,23 +41,24 @@ try {
     }
 
     // Extract data, using null coalescing operator for safety
-    $user_id = $data['user_id'] ?? null;
+    // user_id is now taken from authentication, not input data
     $counselor_id = $data['counselor_id'] ?? null;
-    $message_text = $data['message'] ?? null; // Renamed to avoid conflict with function name
+    $message_text = $data['message'] ?? null;
 
-    // Validate required fields
-    if (!$user_id || !$counselor_id || !trim($message_text)) {
+    // Validate required fields. The user_id comes from authentication.
+    if (!$counselor_id || !trim($message_text)) {
         http_response_code(400); // Bad Request
-        echo json_encode(["success" => false, "error" => "All fields (user_id, counselor_id, message) are required."]);
+        echo json_encode(["success" => false, "error" => "All fields (counselor_id, message) are required."]);
         exit();
     }
 
     // Insert the new message into the messages table
+    // Use $user_id_from_auth obtained from the JWT for the user_id
     $stmt = $pdo->prepare("
         INSERT INTO messages (user_id, counselor_id, message, status, timestamp)
         VALUES (?, ?, ?, 'unread', NOW())
     ");
-    $stmt->execute([$user_id, $counselor_id, $message_text]);
+    $stmt->execute([$user_id_from_auth, $counselor_id, $message_text]);
 
     // Check if the message was successfully inserted
     if ($stmt->rowCount() > 0) {

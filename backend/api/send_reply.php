@@ -1,12 +1,14 @@
 <?php
+// backend/api/send_reply.php
+
 // Enable full error reporting for logging, but disable display for API output.
 error_reporting(E_ALL);
 ini_set('display_errors', 0); // Crucial: Set to 0 to prevent warnings/errors from appearing in API response body
 
 // Set CORS headers
-header("Access-Control-Allow-Origin: *");
+header('Access-Control-Allow-Origin: http://localhost:5173'); // Adjust for your frontend domain
 header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Ensure Authorization header is allowed
 header('Content-Type: application/json'); // Crucial: tell the client to expect JSON
 
 // Handle pre-flight OPTIONS request
@@ -15,34 +17,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit(); // Exit immediately for OPTIONS requests
 }
 
-// Include PHPMailer classes
-// Adjust the path to 'autoload.php' based on where your 'vendor' directory is relative to this script.
-// If 'send_reply.php' is in 'backend/api/', and 'vendor' is in 'backend/', then it's '../vendor/autoload.php'
-require '../vendor/autoload.php';
+// Include necessary files
+require_once __DIR__ . '/../db_connect.php'; // Database connection
+require_once __DIR__ . '/jwt_helper.php';   // JWT helper functions
+require_once __DIR__ . '/../vendor/autoload.php'; // PHPMailer autoload
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
+// Global PDO object from db_connect.php
+global $pdo;
+
 // Wrap the entire script logic in a try-catch block to ensure a JSON response even on unexpected errors
 try {
-    // Include database connection file
-    // IMPORTANT: Ensure db_connect.php does NOT output anything (not even whitespace) outside of <?php tags
-    require '../db_connect.php';
+    // Authenticate the user as a counselor.
+    // Pass 'true' to indicate this is a counselor-specific route.
+    // This will enforce the 'counselor' role and NOT update student last_activity_at.
+    $counselor_id_from_auth = authenticate_user_from_jwt($pdo, true);
 
-    // Decode the JSON input from the request body
-    $data = json_decode(file_get_contents("php://input"), true);
+    // Get the raw POST data
+    $json_data = file_get_contents("php://input");
+    // Decode the JSON data into a PHP associative array
+    $data = json_decode($json_data, true);
+
+    // Check if JSON decoding failed or if data is not an array
+    if (json_last_error() !== JSON_ERROR_NONE || !is_array($data)) {
+        http_response_code(400); // Bad Request
+        echo json_encode(["success" => false, "error" => "Invalid JSON input."]);
+        exit();
+    }
 
     // Extract data, using null coalescing operator for safety
     $message_id = $data['message_id'] ?? null;
-    $counselor_id = $data['counselor_id'] ?? null;
+    $counselor_id_from_payload = $data['counselor_id'] ?? null; // Counselor ID from frontend payload
     $reply_text = $data['reply'] ?? null;
 
     // Validate required fields
-    if (!$message_id || !$counselor_id || !$reply_text) {
+    if (!$message_id || !trim($reply_text)) { // counselor_id will be validated against authenticated ID
         http_response_code(400); // Bad Request
-        echo json_encode(["success" => false, "error" => "All fields (message_id, counselor_id, reply) are required"]);
+        echo json_encode(["success" => false, "error" => "All fields (message_id, reply) are required."]);
         exit(); // Stop script execution after sending response
     }
+
+    // Security Check: Ensure the counselor_id from the payload matches the authenticated counselor ID
+    if ($counselor_id_from_auth != $counselor_id_from_payload) {
+        http_response_code(403); // Forbidden
+        echo json_encode(["success" => false, "error" => "Unauthorized: Counselor ID mismatch."]);
+        exit();
+    }
+
 
     // Update the message in the database
     $stmt = $pdo->prepare("
@@ -50,16 +73,16 @@ try {
         SET reply = ?, status = 'replied', replied_at = NOW()
         WHERE id = ? AND counselor_id = ?
     ");
-    $stmt->execute([$reply_text, $message_id, $counselor_id]);
+    $stmt->execute([$reply_text, $message_id, $counselor_id_from_auth]); // Use authenticated ID for update
 
     // Check if any row was affected by the update
     if ($stmt->rowCount() === 0) {
         http_response_code(404); // Not Found
-        echo json_encode(["success" => false, "error" => "Message not found or counselor ID mismatch"]);
+        echo json_encode(["success" => false, "error" => "Message not found or counselor ID mismatch."]);
         exit(); // Stop script execution
     }
 
-    // Fetch message details to send notification email
+    // Get message details to send notification
     $stmt = $pdo->prepare("
         SELECT u.email, u.full_name, c.name as counselor_name
         FROM messages m
@@ -79,11 +102,10 @@ try {
             $mail->isSMTP();                                            // Send using SMTP
             $mail->Host       = 'smtp.gmail.com';                       // Gmail SMTP server
             $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-            $mail->Username   = 'ecareerguide6@gmail.com';              // Your Gmail address (MUST be exact)
-            // App Password without spaces.
-            $mail->Password   = 'jbyzbdsncldhogsk';                     // The App Password you generated, without spaces
+            $mail->Username   = 'ecareerguide6@gmail.com';              // Gmail address
+            $mail->Password   = 'jbyzbdsncldhogsk';                     // The App Password generated
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption
-            $mail->Port       = 587;                                    // TCP port to connect to; use 587 for TLS/STARTTLS
+            $mail->Port       = 587;                                    // TCP port to connect to; 587 for TLS/STARTTLS
 
             //Recipients
             // The 'From' address should be your Gmail address you are authenticating with

@@ -1,5 +1,4 @@
 <?php
-// backend/api/register.php
 
 header('Access-Control-Allow-Origin: http://localhost:5173');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
@@ -9,10 +8,10 @@ header('Content-Type: application/json');
 
 // Enable error reporting for debugging (disable in production)
 error_reporting(E_ALL);
-ini_set('display_errors', 0); // Set to 0 for production, temporarily set to 1 if you need more verbose errors
+ini_set('display_errors', 0); // Set to 0 for production
 
 require_once __DIR__ . '/../db_connect.php';
-require_once __DIR__ . '/jwt_helper.php'; // Assuming this is needed, though not directly used in register response
+require_once __DIR__ . '/jwt_helper.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -82,11 +81,9 @@ try {
 
     // Insert new user/counselor
     if ($role === 'user') {
-        // 'role' and 'created_at' columns exist in your 'users' table
         $stmt = $pdo->prepare("INSERT INTO $table ($nameColumn, email, password, role, created_at) VALUES (?, ?, ?, ?, NOW())");
         $stmt->execute([$name_input, $email, $hashedPassword, $role]);
     } else { // 'counselor'
-        // Extract additional counselor-specific fields
         $phone = trim($data['phone'] ?? null);
         $specialization = trim($data['specialization'] ?? null);
         $experience = $data['experience'] ?? null; // Should be numeric
@@ -99,7 +96,6 @@ try {
             exit();
         }
 
-        // 'password' and 'created_at' columns exist in your 'counselors' table
         // 'image' and 'rating' are omitted for initial signup, will default to NULL/0
         $stmt = $pdo->prepare("
             INSERT INTO $table (

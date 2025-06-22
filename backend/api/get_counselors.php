@@ -1,5 +1,5 @@
 <?php
-// backend/api/get_counselors.php - Fetches the list of counselors
+// Fetches the list of counselors
 
 // CORS Headers
 header("Access-Control-Allow-Origin: *");
@@ -7,7 +7,7 @@ header("Access-Control-Allow-Methods: GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Added Authorization header
 header('Content-Type: application/json');
 
-// Handle preflight requests (OPTIONS)
+// Handle requests (OPTIONS)
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();

@@ -1,5 +1,4 @@
 <?php
-// backend/api/login.php
 
 header('Access-Control-Allow-Origin: http://localhost:5173');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
@@ -9,7 +8,7 @@ header('Content-Type: application/json');
 
 // Enable error reporting for debugging (disable in production)
 error_reporting(E_ALL);
-ini_set('display_errors', 0); // Set to 0 for production, temporarily set to 1 if you need more verbose errors
+ini_set('display_errors', 0); // Set to 0 for production
 
 require_once __DIR__ . '/../db_connect.php';
 require_once __DIR__ . '/jwt_helper.php';

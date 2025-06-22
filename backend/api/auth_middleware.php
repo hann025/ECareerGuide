@@ -1,5 +1,4 @@
 <?php
-// backend/api/auth_middleware.php
 
 function authenticate() {
     $headers = getallheaders();
@@ -9,7 +8,7 @@ function authenticate() {
         throw new Exception("Authorization header missing");
     }
 
-    // Extract token
+    
     if (!preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
         throw new Exception("Invalid authorization header format");
     }

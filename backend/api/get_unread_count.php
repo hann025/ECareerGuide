@@ -1,36 +1,102 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
+// backend/api/get_counselor_meetings.php
+
+// 1. CORS Headers - Must be at the very top before any output
+header('Access-Control-Allow-Origin: http://localhost:5173');
+header('Access-Control-Allow-Methods: GET, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Access-Control-Allow-Credentials: true');
 header('Content-Type: application/json');
 
+// Handle preflight requests (OPTIONS) - Must exit here
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
 
-require '../db_connect.php';
+// 2. Error Reporting (for debugging, set display_errors to 0 in production)
+ini_set('display_errors', 0);
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/../php_error.log'); // Use the same log file as jwt_helper.php
 
-$counselor_id = $_GET['counselor_id'] ?? null;
+error_log("get_counselor_meetings.php: Script execution started.");
 
-if (!$counselor_id) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "error" => "Counselor ID is required"]);
+// 3. Database Connection and JWT Helper
+require_once __DIR__ . '/../db_connect.php';
+require_once __DIR__ . '/jwt_helper.php';
+
+global $pdo;
+
+if (!isset($pdo) || !$pdo instanceof PDO) {
+    http_response_code(500);
+    error_log("Get Counselor Meetings API error: PDO connection not established.");
+    echo json_encode(["success" => false, "error" => "Database connection error."]);
     exit();
 }
 
 try {
-    $stmt = $pdo->prepare("
-        SELECT COUNT(*) as unread_count
-        FROM messages
-        WHERE counselor_id = ? AND status = 'unread'
-    ");
-    $stmt->execute([$counselor_id]);
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+        http_response_code(405);
+        echo json_encode(["success" => false, "error" => "Method not allowed. Only GET requests are accepted."]);
+        exit();
+    }
 
-    echo json_encode(["success" => true, "unread_count" => (int)$result['unread_count']]);
-} catch (Exception $e) {
+    // Authenticate the counselor. This function will exit if not authenticated or not a counselor.
+    $counselor_id = authenticate_user_from_jwt($pdo, true); // This returns the counselor ID (int)
+
+    error_log("get_counselor_meetings.php: Authenticated Counselor ID: " . $counselor_id);
+
+    // Now, fetch the counselor's email using the ID from the 'counselors' table
+    $stmt_email = $pdo->prepare("SELECT email FROM counselors WHERE id = ?");
+    $stmt_email->execute([$counselor_id]);
+    $counselor_data = $stmt_email->fetch(PDO::FETCH_ASSOC);
+
+    if (!$counselor_data || empty($counselor_data['email'])) {
+        http_response_code(401); // Unauthorized
+        error_log("get_counselor_meetings.php: Counselor email not found in 'counselors' table for ID: " . $counselor_id);
+        echo json_encode(["success" => false, "error" => "Counselor email not found for authenticated ID."]);
+        exit();
+    }
+    $counselor_email = $counselor_data['email'];
+    error_log("get_counselor_meetings.php: Found Counselor Email: " . $counselor_email);
+
+
+    // Fetch scheduled meetings for this counselor_email
+    $stmt = $pdo->prepare("
+        SELECT
+            sm.id,
+            sm.user_email,
+            sm.counselor_email,
+            sm.schedule_date,
+            sm.schedule_time,
+            sm.purpose,
+            sm.created_at,
+            u.full_name AS student_name,
+            u.email AS student_email,
+            u.last_activity_at AS student_last_active
+        FROM
+            scheduled_meetings sm
+        JOIN
+            users u ON sm.user_email = u.email
+        WHERE
+            sm.counselor_email = ?
+        ORDER BY
+            sm.schedule_date DESC, sm.schedule_time DESC
+    ");
+    $stmt->execute([$counselor_email]);
+    $meetings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    echo json_encode(["success" => true, "meetings" => $meetings]);
+
+} catch (PDOException $e) {
     http_response_code(500);
-    echo json_encode(["success" => false, "error" => "Failed to get unread count"]);
+    error_log("Get Counselor Meetings API database error: " . $e->getMessage());
+    echo json_encode(["success" => false, "error" => "Database error."]);
+} catch (Exception $e) {
+    // This catches general exceptions, typically from jwt_helper.php's internal errors
+    http_response_code(500); // Internal Server Error for unhandled exceptions
+    error_log("Get Counselor Meetings API unhandled exception: " . $e->getMessage());
+    echo json_encode(["success" => false, "error" => "An unexpected server error occurred."]);
 }
 ?>

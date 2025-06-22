@@ -1,5 +1,4 @@
 <?php
-// backend/api/dashboard.php
 
 header('Access-Control-Allow-Origin: http://localhost:5173');
 header('Access-Control-Allow-Methods: GET, OPTIONS');
@@ -40,8 +39,8 @@ try {
             "email" => $user['email'],
             "role" => $user['role']
         ],
-        "stats" => [ // Example dashboard stats
-            "last_login" => "2023-06-15", // You would query this
+        "stats" => [ 
+            "last_login" => "2023-06-15", 
             "career_tests_taken" => 3
         ]
     ]);
