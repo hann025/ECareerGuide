@@ -15,7 +15,7 @@ const MessageCounselor = () => {
   const [error, setError] = useState(null);
   const [userId, setUserId] = useState(null);
 
-  const messagesEndRef = useRef(null); // Ref for scrolling to bottom
+  const messagesEndRef = useRef(null);
 
   // Scroll to the bottom of the chat when messages update
   const scrollToBottom = () => {
@@ -34,10 +34,22 @@ const MessageCounselor = () => {
     }
 
     const fetchData = async () => {
-      try {
-        setLoading(true);
+      setLoading(true); // Set loading true at the start of fetch
+      setError(null); // Clear any previous errors
 
-        // Fetch counselor details using the comprehensive get_counselor.php
+      // --- IMPORTANT: Get the JWT token from localStorage ---
+      // For a user trying to message a counselor, it's the user's token that's needed.
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        setError('Authorization token not found. Please log in.');
+        setLoading(false);
+        console.error("Error: Authorization token not provided.");
+        return; // Exit the function if token is missing
+      }
+
+      try {
+        // Fetch counselor details (this endpoint usually doesn't require auth)
         const counselorRes = await fetch(
           `http://localhost/AI-CAREER-PROJECT/backend/api/get_counselor.php?id=${counselorId}`
         );
@@ -46,28 +58,46 @@ const MessageCounselor = () => {
         if (!counselorRes.ok || !counselorData.success || !counselorData.counselor) {
           throw new Error(counselorData.error || 'Counselor not found');
         }
-
         setCounselor(counselorData.counselor);
 
         // Fetch messages between THIS user and THIS counselor
         // Ensure both counselor_id and user_id are passed for specific conversation
         const messagesRes = await fetch(
-          `http://localhost/AI-CAREER-PROJECT/backend/api/get_messages.php?counselor_id=${counselorId}&user_id=${user.id}`
+          `http://localhost/AI-CAREER-PROJECT/backend/api/get_messages.php?counselor_id=${counselorId}&user_id=${user.id}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}` // --- CRUCIAL: Include the Authorization header ---
+            }
+          }
         );
-        const messagesData = await messagesRes.json();
 
-        if (!messagesRes.ok || !messagesData.success) {
-          throw new Error(messagesData.error || 'Failed to load messages');
+        if (!messagesRes.ok) {
+          // Attempt to parse JSON error first, then fallback to text
+          const errorText = await messagesRes.text();
+          try {
+            const errorData = JSON.parse(errorText);
+            throw new Error(errorData.error || `HTTP error! Status: ${messagesRes.status}`);
+          } catch (e) {
+            throw new Error(`HTTP error! Status: ${messagesRes.status}, Details: ${errorText}`);
+          }
         }
 
-        setChatMessages(messagesData.messages.map(msg => ({
-          id: msg.id,
-          sender: msg.user_id === user.id ? 'user' : 'counselor', // Determine sender based on user ID
-          text: msg.message,
-          reply: msg.reply,
-          time: new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          status: msg.status
-        })));
+        const messagesData = await messagesRes.json();
+
+        if (messagesData.success) {
+          setChatMessages(messagesData.messages.map(msg => ({
+            id: msg.id,
+            sender: msg.user_id === user.id ? 'user' : 'counselor', // Determine sender based on user ID
+            text: msg.message,
+            reply: msg.reply, // This will be the counselor's reply to the user's message
+            time: new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            status: msg.status
+          })));
+        } else {
+          throw new Error(messagesData.error || 'Failed to load messages');
+        }
 
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -78,11 +108,15 @@ const MessageCounselor = () => {
       }
     };
 
-    fetchData();
+    // Only fetch data if userId is available
+    if (userId) {
+        fetchData();
 
-    // Set up interval for refreshing messages (e.g., every 5 seconds)
-    const interval = setInterval(fetchData, 5000); // Refresh every 5 seconds
-    return () => clearInterval(interval); // Clean up interval on component unmount
+        // Set up interval for refreshing messages
+        // Changed to 5000ms (5 seconds) for more frequent updates in a chat. 300000ms (5 mins) is too long for chat.
+        const interval = setInterval(fetchData, 5000);
+        return () => clearInterval(interval); // Clean up interval on component unmount
+    }
 
   }, [counselorId, userId]); // Depend on counselorId and userId to refetch if they change
 
@@ -105,18 +139,26 @@ const MessageCounselor = () => {
     const currentMessage = userMessage; // Store message before clearing input
     setUserMessage(''); // Clear input immediately for better UX
 
+    // --- IMPORTANT: Get the JWT token for sending message as well ---
+    const token = localStorage.getItem('token');
+    if (!token) {
+        message.error("Authentication token missing. Please log in to send messages.");
+        return;
+    }
+
     try {
       const response = await fetch(
         "http://localhost/AI-CAREER-PROJECT/backend/api/send_message.php",
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            'Authorization': `Bearer ${token}` // --- CRUCIAL: Include the Authorization header ---
           },
           body: JSON.stringify({
             user_id: userId,
             counselor_id: counselorId,
-            message: currentMessage // Use the stored message
+            message: currentMessage
           })
         }
       );
@@ -206,7 +248,6 @@ const MessageCounselor = () => {
         <div className="message-header">
           <Avatar
             size={48}
-            // Use the helper function to get the correct image source
             src={getCounselorImageSrc(counselor.image)}
             icon={!counselor.image && <UserOutlined />}
             className="counselor-avatar"
@@ -237,14 +278,14 @@ const MessageCounselor = () => {
             chatMessages.map((msg) => (
               <div key={msg.id} className={`chat-message ${msg.sender}`}>
                 <Avatar
-                  // Use the helper function for chat message avatars as well
                   src={msg.sender === 'counselor' ? getCounselorImageSrc(counselor.image) : null}
-                  icon={<UserOutlined />}
+                  // Re-typing this line carefully to avoid any hidden characters
+                  icon={msg.sender === 'user' ? <UserOutlined /> : <CommentOutlined />}
                 />
                 <div className={`message-bubble ${msg.sender}-bubble`}>
                   {msg.text}
                   {/* Display counselor's reply to user's message */}
-                  {msg.reply && msg.sender === 'user' && (
+                  {msg.reply && msg.sender === 'user' && ( // Only show reply if message was from user and has a reply
                     <div className="message-reply">
                       <Text strong>Counselor's reply: </Text>
                       <Text>{msg.reply}</Text>
@@ -267,9 +308,9 @@ const MessageCounselor = () => {
               onChange={(e) => setUserMessage(e.target.value)}
               placeholder="Type your message..."
               className="message-textarea"
-              autoSize={{ minRows: 1, maxRows: 4 }} // Allow textarea to grow up to 4 rows
+              autoSize={{ minRows: 1, maxRows: 10 }}
               onPressEnter={(e) => {
-                if (!e.shiftKey) { // Send on Enter, allow Shift+Enter for new line
+                if (!e.shiftKey) {
                   e.preventDefault();
                   sendMessage();
                 }

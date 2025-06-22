@@ -1,9 +1,8 @@
-/* Dashboard.css - Complete Updated Version */
 html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: 'Inter', sans-serif; /* Changed to Inter for consistency */
+  font-family: 'Inter', sans-serif; 
 }
 
 .dashboard-wrapper {
@@ -12,17 +11,17 @@ html, body, #root {
 }
 
 .custom-sider {
-  background: linear-gradient(180deg, #a777e3, #e48fe8); /* Purple gradient */
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  background: linear-gradient(180deg, #a777e3, #e48fe8); 
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1); 
   z-index: 3; /* Ensure sider is above everything else */
 }
 
 .logo {
   color: white;
-  font-size: 22px; /* Slightly larger */
+  font-size: 22px; 
   text-align: center;
   padding: 20px;
-  font-weight: 700; /* Bolder */
+  font-weight: 700;
   letter-spacing: 0.5px;
 }
 
@@ -33,12 +32,12 @@ html, body, #root {
 }
 
 .custom-menu .ant-menu-item {
-  margin: 8px 16px; /* Spacing for menu items */
+  margin: 8px 16px;
   border-radius: 8px;
 }
 
 .custom-menu .ant-menu-item-selected {
-  background: rgba(255, 255, 255, 0.2) !important; /* Lighter selection */
+  background: rgba(255, 255, 255, 0.2) !important; 
   color: white !important;
 }
 
@@ -75,7 +74,7 @@ html, body, #root {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  position: relative; /* Needed for z-index of children */
+  position: relative;
 }
 
 .dashboard-content {
@@ -83,13 +82,12 @@ html, body, #root {
   overflow-y: auto;
   overflow-x: hidden;
   padding: 40px;
-  position: relative; /* Crucial: Make this the positioning context for content */
+  position: relative; 
   z-index: 1; /* Ensure content is above the bubbles */
-  /* The light overlay background color is here */
   background-color: rgba(255, 255, 255, 0.7); 
 }
 
-/* Bubbles Background - Now applied as a pseudo-element */
+/* Bubbles Background */
 .dashboard-content::before {
   content: '';
   position: absolute;
@@ -105,12 +103,11 @@ html, body, #root {
   animation: floatBubbles 60s linear infinite;
   z-index: -1; /* Place behind the content */
   pointer-events: none; /* Ensure it doesn't interfere with clicks */
-  /* The base gradient is now on .inner-layout, so this pseudo-element just adds the bubbles */
 }
 
 @keyframes floatBubbles {
   0% { transform: translateY(0) translateX(0); }
-  100% { transform: translateY(-50%) translateX(-25%); } /* Consistent with HomePage animation */
+  100% { transform: translateY(-50%) translateX(-25%); }
 }
 
 .welcome-box {
@@ -122,14 +119,14 @@ html, body, #root {
 
 .welcome-box h2.ant-typography {
   color: #5c2d91;
-  font-weight: 700; /* Bolder */
+  font-weight: 700; 
   margin-bottom: 8px;
-  font-size: 2.2em; /* Larger title */
+  font-size: 2.2em; 
 }
 
 .welcome-box .ant-typography-secondary {
   color: #7e57a1;
-  font-size: 18px; /* Larger subtitle */
+  font-size: 18px; 
 }
 
 .center-boxes {
@@ -150,18 +147,18 @@ html, body, #root {
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+  background: rgba(255, 255, 255, 0.9); 
   border-radius: 16px;
   padding: 32px 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
   cursor: pointer;
-  border: 1px solid rgba(167, 119, 227, 0.15); /* Subtle border */
+  border: 1px solid rgba(167, 119, 227, 0.15); 
 }
 
 .action-box:hover {
   transform: translateY(-10px) scale(1.02);
-  background: linear-gradient(to right, #a18cd1, #fbc2eb); /* Vibrant hover gradient */
+  background: linear-gradient(to right, #a18cd1, #fbc2eb); 
   color: white;
   box-shadow: 0 15px 35px rgba(161, 140, 209, 0.3);
 }
@@ -175,14 +172,14 @@ html, body, #root {
   margin-bottom: 16px;
   color: #a777e3;
   transition: all 0.3s ease;
-  font-size: 48px; /* Slightly larger icons */
+  font-size: 48px; 
 }
 
 .action-box h4.ant-typography {
   color: #5c2d91;
   margin-bottom: 8px;
   transition: all 0.3s ease;
-  font-weight: 700; /* Bolder title */
+  font-weight: 700; 
   font-size: 1.5em;
 }
 
@@ -193,7 +190,7 @@ html, body, #root {
   font-size: 15px;
 }
 
-/* Grid Layout for Action Boxes - already good */
+/* Grid Layout for Action Boxes*/
 .action-boxes-grid {
   width: 100%;
   max-width: 1200px;

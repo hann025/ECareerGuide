@@ -2,8 +2,8 @@ import React from 'react';
 import { Button, Typography, Layout, Space } from 'antd';
 import { ArrowRightOutlined, RocketOutlined, BulbOutlined, SolutionOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import './HomePage.css'; // Import the new CSS file
-
+import './HomePage.css'; 
+import FuturisticHumanoidRobot from '../assets/Futuristic Humanoid Robot in Blue.png'; 
 const { Title, Text } = Typography;
 const { Header, Content, Footer } = Layout;
 
@@ -58,7 +58,7 @@ const HomePage = () => {
           <div className="hero-image-container animate-scale-in">
             {/* Placeholder image for career guidance */}
             <img
-              src="https://placehold.co/400x300/a777e3/ffffff?text=Your+Career+Journey"
+              src={FuturisticHumanoidRobot} 
               alt="Career Guidance Illustration"
               className="hero-image"
               // Fallback for image loading errors

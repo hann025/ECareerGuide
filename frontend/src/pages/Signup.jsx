@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Card, Input, Button, Typography, Form, message, Radio, Spin, InputNumber, Select } from 'antd'; // Added InputNumber, Select
-import { UserOutlined, LockOutlined, MailOutlined, ArrowRightOutlined, PhoneOutlined, SolutionOutlined, CalendarOutlined } from '@ant-design/icons'; // Added new icons
+import { Card, Input, Button, Typography, Form, message, Radio, Spin, InputNumber, Select } from 'antd'; 
+import { UserOutlined, LockOutlined, MailOutlined, ArrowRightOutlined, PhoneOutlined, SolutionOutlined, CalendarOutlined } from '@ant-design/icons'; 
 import { Link, useNavigate } from 'react-router-dom';
-import './Signup.css'; // Assuming you have a Signup.css for styling
+import './Signup.css'; 
 
 const { Title, Text } = Typography;
-const { Option } = Select; // Destructure Option from Select
+const { Option } = Select; 
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -156,7 +156,6 @@ const Signup = () => {
                   <Option value="Interview Prep">Interview Prep</Option>
                   <Option value="Skill Assessment">Skill Assessment</Option>
                   <Option value="Job Search Strategies">Job Search Strategies</Option>
-                  {/* Add more specializations as needed */}
                 </Select>
               </Form.Item>
 

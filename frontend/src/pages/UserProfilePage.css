@@ -1,0 +1,634 @@
+/* src/pages/UserProfilePage.css */
+
+/* --- Color Variables (ensure these are consistent across your project) --- */
+:root {
+    --color-primary: #5a2e98;         /* Deep Violet (Dark Purple) */
+    --color-secondary: #8c42f4;       /* Vibrant Purple */
+    --color-accent: #e91e63;          /* Pinkish Accent */
+    --color-text-primary: #333;       /* Dark text for readability */
+    --color-text-secondary: #666;     /* Lighter text for secondary info */
+    --color-background: #f0f2f5;      /* Light gray background - base */
+    --color-light-background: #ffffff; /* White background for cards/content */
+
+    /* Specific to your theme */
+    --color-deep-violet: #5a2e98;
+    --color-vibrant-purple: #8c42f4;
+    --color-vibrant-purple-light: #b388f7; /* Lighter shade for hover/focus effects */
+    --color-pinkish-accent: #e91e63;
+    --color-soft-lavender: #f0f2f5; /* Lightest background/border */
+    --color-soft-lavender-dark: #e0e2e6; /* Slightly darker for borders/shadows */
+    --card-background: #ffffff; /* White for card backgrounds */
+    --gradient-light-purple: linear-gradient(135deg, #f6e8ff, #f3d8ff); /* From Dashboard */
+}
+
+/* --- General Layout & Background --- */
+html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background: var(--gradient-light-purple); /* Apply a subtle gradient to the whole page */
+}
+
+.profile-layout {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align content to the top */
+    padding: 30px 20px; /* More padding for overall layout */
+    background: transparent; /* Let the html/body background show through */
+}
+
+.profile-content-area {
+    max-width: 1200px;
+    width: 100%;
+    padding: 40px; /* Increased padding inside the main content area */
+    background: var(--color-light-background);
+    border-radius: 16px; /* Slightly more rounded corners */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.profile-page-title {
+    color: var(--color-deep-violet);
+    text-align: center;
+    margin-bottom: 40px; /* More space below title */
+    font-size: 2.5em; /* Larger title */
+    font-weight: 700;
+    letter-spacing: -0.8px;
+}
+
+/* --- Loading Spinner --- */
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: var(--gradient-light-purple);
+}
+
+/* --- Basic Info Card --- */
+.profile-card {
+    background: var(--card-background);
+    border-radius: 12px; /* Consistent rounded corners */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Softer shadow for individual cards */
+    margin-bottom: 30px; /* Consistent margin between cards */
+    padding: 30px; /* Consistent padding inside cards */
+    border: 1px solid var(--color-soft-lavender-dark); /* Subtle border */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Add transition for hover */
+}
+
+.profile-card:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.basic-info-card {
+    text-align: center;
+}
+
+.profile-header-section {
+    margin-bottom: 30px; /* More space below header section */
+}
+
+.profile-avatar {
+    margin-bottom: 20px; /* More space below avatar */
+    background-color: var(--color-vibrant-purple-light);
+    color: #fff;
+    border: 3px solid var(--color-vibrant-purple); /* Thicker border */
+}
+
+.profile-name {
+    color: var(--color-deep-violet);
+    margin-bottom: 8px;
+    font-weight: 700; /* Bolder name */
+    font-size: 1.8em;
+}
+
+.profile-email, .profile-phone {
+    display: block;
+    color: var(--color-text-secondary);
+    font-size: 1em; /* Slightly larger font */
+    margin-bottom: 6px;
+}
+
+.profile-bio {
+    color: var(--color-text-primary);
+    margin-top: 20px; /* More space above bio */
+    line-height: 1.7; /* Better readability */
+    max-width: 800px; /* Wider bio text */
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.05em;
+}
+
+.social-links .anticon {
+    font-size: 2em; /* Larger icons */
+    margin: 0 12px;
+    color: var(--color-vibrant-purple);
+    transition: color 0.3s ease;
+}
+
+.social-links .anticon:hover {
+    color: var(--color-deep-violet);
+}
+
+.profile-form .ant-form-item-label > label {
+    color: var(--color-text-primary);
+    font-weight: 600; /* Bolder labels */
+}
+
+.profile-form .ant-input[disabled],
+.profile-form .ant-input-textArea[disabled] {
+    color: var(--color-text-primary);
+    background-color: var(--color-soft-lavender); /* Lighter background for disabled inputs */
+    border-color: var(--color-soft-lavender-dark);
+    cursor: default;
+}
+
+.form-actions {
+    margin-top: 30px; /* More space above actions */
+    text-align: center;
+}
+
+.edit-button, .save-button {
+    background-color: var(--color-vibrant-purple);
+    border-color: var(--color-vibrant-purple);
+    color: #fff;
+    font-weight: 600;
+    padding: 8px 20px; /* More padding for buttons */
+    height: auto;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.edit-button:hover, .edit-button:focus,
+.save-button:hover, .save-button:focus {
+    background-color: var(--color-deep-violet);
+    border-color: var(--color-deep-violet);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+}
+
+.cancel-button {
+    border-color: var(--color-text-secondary);
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    padding: 8px 20px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.cancel-button:hover, .cancel-button:focus {
+    color: var(--color-deep-violet);
+    border-color: var(--color-deep-violet);
+}
+
+
+/* --- Grid Layout for Sections --- */
+.profile-sections-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); /* Adjusted min-width for larger cards */
+    gap: 30px; /* Increased gap between grid items */
+    margin-top: 30px;
+}
+
+.profile-sections-grid .profile-card {
+    margin-bottom: 0; /* Remove individual card bottom margin for grid layout */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribute space in cards */
+}
+
+.profile-sections-grid .card-title {
+    color: var(--color-deep-violet);
+    margin-bottom: 25px; /* More space below card title */
+    font-size: 1.4em;
+    font-weight: 700;
+}
+
+/* --- Skills Card --- */
+.skills-card {
+    /* Specific padding if needed, otherwise general .profile-card padding applies */
+}
+
+.skills-list {
+    margin-bottom: 25px; /* More space below list */
+}
+
+.skill-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 18px; /* More space between items */
+    padding: 12px 15px; /* More padding */
+    background-color: var(--color-background);
+    border-radius: 10px; /* Slightly more rounded */
+    border: 1px solid var(--color-soft-lavender-dark);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02); /* Subtle shadow for items */
+}
+
+.skill-name {
+    flex-basis: calc(100% - 120px); /* Name takes most width, leaving space for progress/actions */
+    color: var(--color-text-primary);
+    font-weight: 600;
+    margin-bottom: 0; /* No margin if on same line */
+    font-size: 1.05em;
+}
+
+.skill-item .ant-progress {
+    flex-grow: 1;
+    margin-right: 15px;
+    min-width: 180px; /* Ensure progress bar has min width */
+    margin-top: 5px; /* Small space below name if wrapped */
+}
+
+.skill-item .ant-progress-text {
+    color: var(--color-text-primary);
+    font-weight: 500;
+}
+
+.skill-actions {
+    margin-left: auto;
+    margin-top: 0; /* Align with progress bar */
+}
+
+.skill-actions .ant-btn-link {
+    padding: 0 8px;
+    font-size: 0.95em;
+    color: var(--color-vibrant-purple);
+    font-weight: 500;
+}
+
+.skill-actions .ant-btn-link.ant-btn-dangerous {
+    color: var(--color-pinkish-accent);
+}
+
+.add-skill-button {
+    width: 100%;
+    text-align: center;
+    color: var(--color-vibrant-purple);
+    font-weight: 600;
+    margin-top: 15px;
+}
+.add-skill-button:hover, .add-skill-button:focus {
+    color: var(--color-deep-violet);
+}
+
+/* --- Education & Experience Card --- */
+.education-experience-card {
+    /* Specific padding if needed */
+}
+
+.education-list,
+.experience-list {
+    width: 100%;
+    margin-bottom: 25px;
+    max-height: 300px; /* Set a max height for scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding-right: 10px; /* Add some padding for the scrollbar */
+    /* Customize scrollbar for webkit browsers */
+    scrollbar-width: thin; /* "auto" or "thin" */
+    scrollbar-color: var(--color-vibrant-purple) var(--color-soft-lavender-dark); /* thumb and track color */
+}
+
+/* Webkit (Chrome, Safari) scrollbar styles */
+.education-list::-webkit-scrollbar,
+.experience-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.education-list::-webkit-scrollbar-track,
+.experience-list::-webkit-scrollbar-track {
+    background: var(--color-soft-lavender-dark);
+    border-radius: 10px;
+}
+
+.education-list::-webkit-scrollbar-thumb,
+.experience-list::-webkit-scrollbar-thumb {
+    background-color: var(--color-vibrant-purple);
+    border-radius: 10px;
+    border: 2px solid var(--color-soft-lavender-dark);
+}
+
+
+.edu-item, .exp-item {
+    width: 100%;
+    padding: 18px 20px; /* More padding */
+    background-color: var(--color-background);
+    border-radius: 10px;
+    border: 1px solid var(--color-soft-lavender-dark);
+    margin-bottom: 18px; /* More space between items */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.edu-item:last-child, .exp-item:last-child {
+    margin-bottom: 0;
+}
+
+.edu-item .ant-typography-strong, .exp-item .ant-typography-strong {
+    color: var(--color-deep-violet);
+    font-size: 1.15em; /* Slightly larger title */
+    display: block; /* Ensure it takes full line */
+    margin-bottom: 4px;
+}
+
+.edu-item .ant-typography, .exp-item .ant-typography {
+    color: var(--color-text-primary);
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+.edu-item .ant-typography-secondary, .exp-item .ant-typography-secondary {
+    color: var(--color-text-secondary);
+    font-size: 0.95em;
+    margin-top: 5px; /* Space above description */
+}
+
+.edu-actions, .exp-actions {
+    margin-top: 15px; /* More space above actions */
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.edu-actions .ant-btn-link, .exp-actions .ant-btn-link {
+    padding: 0 10px;
+    font-size: 0.95em;
+    color: var(--color-vibrant-purple);
+    font-weight: 500;
+}
+
+.edu-actions .ant-btn-link.ant-btn-dangerous, .exp-actions .ant-btn-link.ant-btn-dangerous {
+    color: var(--color-pinkish-accent);
+}
+
+.add-edu-button, .add-exp-button {
+    width: 100%;
+    text-align: center;
+    color: var(--color-vibrant-purple);
+    font-weight: 600;
+    margin-top: 15px;
+}
+.add-edu-button:hover, .add-edu-button:focus,
+.add-exp-button:hover, .add-exp-button:focus {
+    color: var(--color-deep-violet);
+}
+
+/* --- Interests Card --- */
+.interests-card {
+    /* Specific padding if needed */
+}
+
+.interests-tags {
+    margin-bottom: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* More space between tags */
+}
+
+.interests-tags .ant-tag {
+    background-color: var(--color-vibrant-purple-light);
+    color: var(--color-deep-violet);
+    font-weight: 500;
+    padding: 8px 15px; /* Larger tags */
+    border-radius: 25px; /* More rounded */
+    border: 1px solid var(--color-vibrant-purple);
+    font-size: 1em;
+}
+
+.interests-tags .ant-tag .anticon-close {
+    color: var(--color-deep-violet);
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.interests-tags .ant-tag .anticon-close:hover {
+    opacity: 1;
+}
+
+.add-interest-button {
+    width: 100%;
+    text-align: center;
+    color: var(--color-vibrant-purple);
+    font-weight: 600;
+    margin-top: 15px;
+}
+.add-interest-button:hover, .add-interest-button:focus {
+    color: var(--color-deep-violet);
+}
+
+/* --- AI Insights Card --- */
+.ai-insights-card {
+    /* Specific padding if needed */
+}
+
+.ai-insights-list {
+    width: 100%;
+    margin-bottom: 25px;
+    max-height: 250px; /* Set a max height for AI insights list */
+    overflow-y: auto; /* Enable vertical scrolling for insights */
+    padding-right: 10px; /* Padding for scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-vibrant-purple) var(--color-soft-lavender-dark);
+
+    /* NEW FLEXBOX PROPERTIES FOR STACKING */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Consistent spacing between items */
+}
+
+/* Webkit (Chrome, Safari) scrollbar styles for AI insights */
+.ai-insights-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.ai-insights-list::-webkit-scrollbar-track {
+    background: var(--color-soft-lavender-dark);
+    border-radius: 10px;
+}
+
+.ai-insights-list::-webkit-scrollbar-thumb {
+    background-color: var(--color-vibrant-purple);
+    border-radius: 10px;
+    border: 2px solid var(--color-soft-lavender-dark);
+}
+
+
+.ai-insight-item {
+    background-color: var(--color-background);
+    padding: 15px; /* More padding */
+    border-radius: 10px;
+    border: 1px solid var(--color-soft-lavender-dark);
+    /* Removed margin-bottom here as gap on parent handles it */
+    color: var(--color-text-primary);
+    line-height: 1.6; /* Ensure good line spacing */
+    font-size: 1em;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    word-break: break-word; /* Ensure long words wrap */
+}
+
+.ai-insight-item:last-child {
+    /* margin-bottom: 0; // Not strictly needed with gap, but harmless */
+}
+
+.refresh-insights-button {
+    width: 100%;
+    text-align: center;
+    color: var(--color-vibrant-purple);
+    font-weight: 600;
+    margin-top: 15px;
+}
+.refresh-insights-button:hover, .refresh-insights-button:focus {
+    color: var(--color-deep-violet);
+}
+
+/* --- Modal Styles (Ant Design Overrides) --- */
+.ant-modal-header {
+    background-color: var(--color-vibrant-purple);
+    border-bottom: 1px solid var(--color-deep-violet);
+}
+
+.ant-modal-title {
+    color: #fff !important;
+    font-size: 1.6em; /* Slightly larger modal title */
+    font-weight: 600;
+}
+
+.ant-modal-close-x {
+    color: #fff !important;
+}
+
+.ant-modal-body {
+    padding: 30px;
+}
+
+.ant-form-item-label > label {
+    color: var(--color-text-primary);
+    font-weight: 600; /* Bolder form labels in modal */
+}
+
+.ant-input, .ant-input-number-input, .ant-picker, .ant-select-selector {
+    border-color: var(--color-soft-lavender-dark) !important;
+    background-color: var(--color-background) !important;
+    color: var(--color-text-primary) !important;
+    border-radius: 6px; /* Slightly rounded inputs */
+}
+
+.ant-input:focus, .ant-input-number-input:focus, .ant-picker-focused, .ant-select-focused .ant-select-selector {
+    box-shadow: 0 0 0 2px var(--color-vibrant-purple-light) !important;
+    border-color: var(--color-vibrant-purple) !important;
+}
+
+.ant-btn-primary {
+    background-color: var(--color-vibrant-purple);
+    border-color: var(--color-vibrant-purple);
+    border-radius: 8px;
+}
+
+.ant-btn-primary:hover {
+    background-color: var(--color-deep-violet) !important;
+    border-color: var(--color-deep-violet) !important;
+}
+
+.ant-btn-default {
+    border-color: var(--color-soft-lavender-dark);
+    color: var(--color-text-primary);
+    border-radius: 8px;
+}
+
+.ant-btn-default:hover {
+    border-color: var(--color-vibrant-purple);
+    color: var(--color-vibrant-purple);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .profile-content-area {
+        padding: 30px;
+    }
+    .profile-sections-grid {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Adjust for smaller screens */
+        gap: 25px;
+    }
+    .profile-page-title {
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-layout {
+        padding: 20px 15px;
+    }
+    .profile-content-area {
+        padding: 25px;
+    }
+    .profile-page-title {
+        font-size: 1.8em;
+        margin-bottom: 30px;
+    }
+    .profile-sections-grid {
+        grid-template-columns: 1fr; /* Stack cards on very small screens */
+        gap: 20px;
+    }
+    .profile-card {
+        padding: 25px;
+    }
+    .skill-item, .edu-item, .exp-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+    }
+    .skill-item .ant-progress {
+        margin-right: 0;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+    .skill-actions, .edu-actions, .exp-actions {
+        width: 100%;
+        justify-content: flex-start;
+        margin-top: 10px;
+    }
+    .profile-avatar {
+        width: 80px;
+        height: 80px;
+        font-size: 40px;
+    }
+    .profile-name {
+        font-size: 1.5em;
+    }
+    .profile-bio {
+        font-size: 0.95em;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-layout {
+        padding: 15px 10px;
+    }
+    .profile-content-area {
+        padding: 20px;
+    }
+    .profile-page-title {
+        font-size: 1.5em;
+        margin-bottom: 25px;
+    }
+    .profile-card {
+        padding: 20px;
+    }
+    .skill-item, .edu-item, .exp-item, .ai-insight-item {
+        padding: 12px;
+        font-size: 0.9em;
+    }
+    .skill-name, .edu-item .ant-typography-strong, .exp-item .ant-typography-strong {
+        font-size: 1em;
+    }
+    .interests-tags .ant-tag {
+        padding: 6px 10px;
+        font-size: 0.9em;
+    }
+    .ant-modal-title {
+        font-size: 1.4em;
+    }
+}

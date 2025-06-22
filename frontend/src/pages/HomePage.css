@@ -1,4 +1,3 @@
-/* General body/html styling for full height */
 html, body, #root {
     height: 100%;
     margin: 0;
@@ -90,7 +89,7 @@ html, body, #root {
     padding: 40px 20px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Align content to the start (top) */
+    align-items: flex-start; 
     text-align: center; /* Keep text centered for overall content */
     z-index: 1; /* Ensure content is above bubbles */
     overflow-x: hidden;

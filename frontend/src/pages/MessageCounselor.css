@@ -3,14 +3,14 @@ html, body, #root {
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: 'Inter', sans-serif; /* Using Inter font as per instructions */
+    font-family: 'Inter', sans-serif; 
 }
 
 .message-counselor-container {
     position: relative;
     padding: 20px;
-    min-height: 100vh; /* Ensure it takes full viewport height */
-    display: flex; /* Use flexbox to center content */
+    min-height: 100vh; 
+    display: flex; 
     justify-content: center;
     align-items: center;
     background: linear-gradient(135deg, #f6e8ff, #f3d8ff);

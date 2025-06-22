@@ -1,4 +1,3 @@
-/* Reset and Base Styles */
 /* Apply box-sizing globally for consistent box model behavior */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -11,7 +10,6 @@ html, body {
   font-family: 'Inter', sans-serif; /* Consistent font */
   background: linear-gradient(135deg, #f6e8ff, #f3d8ff); /* Base background for the whole page */
   overflow-x: hidden; /* Prevent horizontal scroll */
-  /* overflow-y is now handled by #root */
 }
 
 #root {
@@ -19,10 +17,9 @@ html, body {
   display: flex; /* Make #root a flex container */
   flex-direction: column; /* Stack its children vertically */
   overflow-y: auto; /* THIS IS THE MAIN PAGE SCROLLBAR */
-  /* outline: 2px solid black; /* DEBUG: Outline for #root */
 }
 
-/* Bubbles Background (matches dashboard) */
+/* Bubbles Background */
 .ai-chat-wrapper::before {
   content: '';
   position: absolute; 
@@ -55,7 +52,6 @@ html, body {
   align-items: center; /* Center content horizontally */
   padding: 20px; /* Keep padding here for overall page margin */
   overflow: hidden; /* Hide overflow for the wrapper itself */
-  /* outline: 2px solid yellow; /* DEBUG: Outline for .ai-chat-wrapper */
 }
 
 /* Container for the chat card */
@@ -70,7 +66,6 @@ html, body {
   margin: auto; /* Center it horizontally and vertically */
   position: relative;
   z-index: 1;
-  /* outline: 2px solid blue; /* DEBUG: Outline for .ai-chat-container */
 }
 
 /* Glass Card (updated colors to match dashboard) */
@@ -85,7 +80,6 @@ html, body {
   /* CRUCIAL: Make the entire card scrollable */
   max-height: calc(100vh - 80px); /* Max height of card, accounting for wrapper padding and back button */
   overflow-y: auto; /* THIS IS THE CHAT BOX SCROLLBAR */
-  /* outline: 2px solid green; /* DEBUG: Outline for .ai-chat-glass-card */
 }
 
 /* Header (matches dashboard gradient) */
@@ -279,7 +273,6 @@ html, body {
   gap: 12px;
   flex-shrink: 0; /* Prevent input area from shrinking */
   height: 80px; /* Explicit height for input area */
-  /* outline: 2px solid orange; /* DEBUG: Outline for .input-area */
 }
 
 .chat-input {

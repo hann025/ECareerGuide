@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout, Typography, Card, Row, Col, Button } from 'antd';
-import { DollarOutlined, ArrowLeftOutlined, LinkOutlined } from '@ant-design/icons'; // Added LinkOutlined for external links
+import { DollarOutlined, ArrowLeftOutlined, LinkOutlined } from '@ant-design/icons'; 
 import { useNavigate } from 'react-router-dom';
 import './TopCareers.css';
 
@@ -13,7 +13,7 @@ const careerData = [
     salary: "$120,000 - $200,000",
     growth: "35% (Much faster than average)",
     description: "Design and implement AI models to solve complex problems.",
-    website: "https://www.ibm.com/cloud/learn/what-is-artificial-intelligence", // Corrected link
+    website: "https://www.ibm.com/cloud/learn/what-is-artificial-intelligence", 
     tags: ["International", "Tech"]
   },
   {
@@ -21,7 +21,7 @@ const careerData = [
     salary: "$100,000 - $180,000",
     growth: "28% (Much faster than average)",
     description: "Extract insights from large datasets to drive decisions.",
-    website: "https://www.tableau.com/learn/articles/what-is-data-science", // Corrected link
+    website: "https://www.tableau.com/learn/articles/what-is-data-science", 
     tags: ["International", "Tech"]
   },
   {
@@ -29,7 +29,7 @@ const careerData = [
     salary: "$110,000 - $190,000",
     growth: "31% (Much faster than average)",
     description: "Protect systems and networks from digital attacks.",
-    website: "https://www.cisco.com/c/en/us/products/security/what-is-cybersecurity.html", // Corrected link
+    website: "https://www.cisco.com/c/en/us/products/security/what-is-cybersecurity.html", 
     tags: ["International", "Tech"]
   },
   {
@@ -37,7 +37,7 @@ const careerData = [
     salary: "$130,000 - $210,000",
     growth: "24% (Much faster than average)",
     description: "Design and manage cloud computing strategies.",
-    website: "https://aws.amazon.com/what-is-cloud-computing/", // Corrected link
+    website: "https://aws.amazon.com/what-is-cloud-computing/", 
     tags: ["International", "Tech"]
   },
   {
@@ -93,7 +93,7 @@ const careerData = [
     salary: "GH₵9,000 - GH₵28,000/month",
     growth: "Infrastructure development",
     description: "Oversee building projects across Ghana",
-    website: "https://www.mwh.gov.gh", // Example, might need a more specific construction company
+    website: "https://www.mwh.gov.gh", 
     tags: ["Ghana", "Construction"]
   },
   {
@@ -133,7 +133,7 @@ const careerData = [
     salary: "GH₵8,000 - GH₵24,000/month",
     growth: "Road construction boom",
     description: "Ministry of Roads, construction firms",
-    website: "https://www.mrh.gov.gh", // Example, might need a more specific construction firm
+    website: "https://www.mrh.gov.gh", 
     tags: ["Ghana", "Engineering"]
   },
   {
@@ -149,7 +149,7 @@ const careerData = [
     salary: "GH₵5,000 - GH₵12,000/month + commission",
     growth: "Healthcare access expansion",
     description: "KAMA, M&G, Ernest Chemists distribution",
-    website: "https://www.mofep.gov.gh", // Example, might need a specific pharma company
+    website: "https://www.mofep.gov.gh", 
     tags: ["Ghana", "Healthcare"]
   },
   {

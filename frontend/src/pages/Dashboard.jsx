@@ -13,13 +13,16 @@ import {
 import {
   LogoutOutlined,
   RobotOutlined,
-  MessageOutlined,
-  CalendarOutlined,
+  MessageOutlined, // Keeping for the card, but not sidebar
+  CalendarOutlined, // Keeping for the card, but not sidebar
   DashboardOutlined,
   UserOutlined,
   DollarOutlined,
   BankOutlined,
   InboxOutlined,
+  ReadOutlined,
+  FileTextOutlined, // Import FileTextOutlined for Resume Builder
+  HighlightOutlined, // Import HighlightOutlined for Document Optimizer
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
@@ -83,27 +86,34 @@ const Dashboard = () => {
       key: "1",
       icon: <DashboardOutlined />,
       label: "Dashboard",
+      onClick: () => navigate("/dashboard"),
     },
     {
       key: "2",
-      icon: <RobotOutlined />,
-      label: "Ask AI",
-      onClick: () => navigate("/ask-ai"),
+      icon: <UserOutlined />,
+      label: "Profile",
+      onClick: () => navigate("/profile"),
     },
     {
       key: "3",
-      icon: <MessageOutlined />,
-      label: "Counselors",
-      onClick: () => navigate("/counselors"),
+      icon: <ReadOutlined />,
+      label: "Learning Journey",
+      onClick: () => navigate("/learning-journey"),
     },
     {
       key: "4",
-      icon: <CalendarOutlined />,
-      label: "Schedule Meeting",
-      onClick: () => navigate("/schedule-meeting"),
+      icon: <FileTextOutlined />,
+      label: "Resume Builder",
+      onClick: () => navigate("/resume-builder"),
     },
     {
-      key: "5",
+      key: "5", // New Key for Document Optimizer
+      icon: <HighlightOutlined />, // Icon for Document Optimizer
+      label: "AI Document Optimizer", // Label for Document Optimizer
+      onClick: () => navigate("/document-optimizer"), // Path to Document Optimizer
+    },
+    {
+      key: "6", // Adjusted key for Counselor Inbox
       icon: <InboxOutlined />,
       label: "Counselor Inbox",
       onClick: () => navigate("/counselor-inbox"),
@@ -119,7 +129,7 @@ const Dashboard = () => {
         className="custom-sider"
         width={220}
       >
-        <div className="logo">E-CareerGuide</div>
+        <div className="logo">ECareerGuide</div>
         <Menu
           mode="inline"
           defaultSelectedKeys={["1"]}
@@ -140,13 +150,11 @@ const Dashboard = () => {
         </Header>
 
         <Content className="dashboard-content">
-          {/* Bubbles background will now be applied via CSS pseudo-element on .dashboard-content */}
-
           <div className="welcome-box">
             <Title level={2}>
-              {greeting}, {username}! {/* Display actual username */}
+              {greeting}, {username}!
             </Title>
-            <Text>Welcome to your AI Career Dashboard</Text>
+            <Text>Welcome to your ECareerGuide Dashboard</Text>
           </div>
 
           <div className="center-boxes">
@@ -163,7 +171,7 @@ const Dashboard = () => {
                   <Text>Let AI guide your career decisions instantly.</Text>
                 </Card>
               </Col>
-              
+
               <Col xs={24} sm={12} md={10} lg={8} xl={6}>
                 <Card
                   className="action-box"
@@ -190,7 +198,7 @@ const Dashboard = () => {
                   <Text>Discover high-earning career paths with growth potential.</Text>
                 </Card>
               </Col>
-              
+
               <Col xs={24} sm={12} md={10} lg={8} xl={6}>
                 <Card
                   className="action-box"

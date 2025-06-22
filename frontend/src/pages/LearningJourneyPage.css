@@ -1,0 +1,217 @@
+/* src/pages/LearningJourneyPage.css */
+
+/* --- General Layout --- */
+.learning-journey-layout {
+    min-height: 100vh;
+    background-color: var(--color-background); /* Use your project's background color */
+    padding: 20px;
+    display: flex;
+    justify-content: center; /* Center content horizontally */
+}
+
+.learning-journey-content-area {
+    max-width: 1200px; /* Max width for content */
+    width: 100%;
+    padding: 30px;
+    background: var(--color-light-background); /* A slightly lighter background for the content area */
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Soft shadow */
+    margin-top: 20px; /* Spacing from top */
+    margin-bottom: 20px; /* Spacing from bottom */
+}
+
+.page-title {
+    color: var(--color-deep-violet); /* Use your primary heading color */
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.2em; /* Slightly larger for a main page title */
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+/* --- Add Button --- */
+.add-learning-button {
+    display: block; /* Make it take full width for better centering */
+    margin: 0 auto 30px auto; /* Center it and add bottom margin */
+    background-color: var(--color-vibrant-purple); /* Your primary button color */
+    border-color: var(--color-vibrant-purple);
+    color: #fff;
+    font-weight: 600;
+    padding: 10px 25px; /* Adjust padding for a larger button */
+    height: auto; /* Allow padding to define height */
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.add-learning-button:hover,
+.add-learning-button:focus {
+    background-color: var(--color-deep-violet); /* Darker on hover */
+    border-color: var(--color-deep-violet);
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Learning Items Grid --- */
+.learning-items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 25px; /* Space between cards */
+    margin-top: 20px;
+}
+
+.learning-item-card {
+    background: var(--card-background); /* Card background color */
+    border: 1px solid var(--color-soft-lavender-dark); /* Subtle border */
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.learning-item-card:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.learning-item-card .ant-card-meta-title {
+    color: var(--color-deep-violet); /* Title color */
+    font-size: 1.1em;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.learning-item-card .ant-card-meta-description {
+    color: var(--color-text-primary); /* Description text color */
+}
+
+.learning-item-card .ant-card-meta-description .ant-typography-secondary {
+    color: var(--color-text-secondary); /* Lighter text for secondary info */
+    font-size: 0.9em;
+}
+
+.learning-item-card .ant-card-actions {
+    background-color: var(--color-soft-lavender); /* Lighter background for actions */
+    border-top: 1px solid var(--color-soft-lavender-dark);
+}
+
+.learning-item-card .ant-card-actions > li > span > .ant-btn-link {
+    color: var(--color-vibrant-purple); /* Link color for actions */
+    font-weight: 500;
+}
+
+.learning-item-card .ant-card-actions > li > span > .ant-btn-link:hover {
+    color: var(--color-deep-violet); /* Darker on hover */
+}
+
+.learning-item-card .ant-card-actions > li > span > .ant-btn-link.ant-btn-dangerous {
+    color: var(--color-pinkish-accent); /* Red for delete */
+}
+
+.learning-item-card .ant-card-actions > li > span > .ant-btn-link.ant-btn-dangerous:hover {
+    color: #d9363e; /* Darker red on hover */
+}
+
+.progress-section {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column; /* Stack progress and status vertically */
+    gap: 5px;
+}
+
+.progress-input-display {
+    width: 100px !important; /* Fixed width for the input number */
+    pointer-events: none; /* Make it non-interactive for display */
+    background-color: var(--color-soft-lavender-dark);
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 0.9em;
+    color: var(--color-text-primary);
+}
+
+.ant-tag {
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 5px;
+}
+
+/* --- Modal Styles (Ant Design Overrides) --- */
+.ant-modal-header {
+    background-color: var(--color-vibrant-purple); /* Modal header background */
+    border-bottom: 1px solid var(--color-deep-violet);
+}
+
+.ant-modal-title {
+    color: #fff !important; /* Modal title color */
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+.ant-modal-close-x {
+    color: #fff !important; /* Close icon color */
+}
+
+.ant-modal-body {
+    padding: 30px;
+}
+
+.ant-form-item-label > label {
+    color: var(--color-text-primary); /* Form label color */
+    font-weight: 500;
+}
+
+.ant-input, .ant-input-number-input, .ant-picker, .ant-select-selector {
+    border-color: var(--color-soft-lavender-dark) !important; /* Form input border */
+    background-color: var(--color-light-background) !important;
+    color: var(--color-text-primary) !important;
+}
+
+.ant-input:focus, .ant-input-number-input:focus, .ant-picker-focused, .ant-select-focused .ant-select-selector {
+    box-shadow: 0 0 0 2px var(--color-vibrant-purple-light) !important; /* Focus shadow */
+    border-color: var(--color-vibrant-purple) !important;
+}
+
+.ant-btn-primary {
+    background-color: var(--color-vibrant-purple);
+    border-color: var(--color-vibrant-purple);
+}
+
+.ant-btn-primary:hover {
+    background-color: var(--color-deep-violet) !important;
+    border-color: var(--color-deep-violet) !important;
+}
+
+.ant-btn-default {
+    border-color: var(--color-soft-lavender-dark);
+    color: var(--color-text-primary);
+}
+
+.ant-btn-default:hover {
+    border-color: var(--color-vibrant-purple);
+    color: var(--color-vibrant-purple);
+}
+
+.no-items-message {
+    grid-column: 1 / -1; /* Span across all columns */
+    text-align: center;
+    padding: 50px;
+    color: var(--color-text-secondary);
+    font-style: italic;
+    font-size: 1.1em;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .learning-journey-content-area {
+        padding: 20px;
+    }
+    .page-title {
+        font-size: 1.8em;
+    }
+    .learning-items-grid {
+        grid-template-columns: 1fr; /* Stack cards on smaller screens */
+    }
+    .add-learning-button {
+        width: 100%; /* Full width button on small screens */
+        max-width: 300px; /* Keep a reasonable max width */
+    }
+}

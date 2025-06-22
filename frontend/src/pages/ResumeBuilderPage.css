@@ -1,0 +1,376 @@
+/* src/pages/ResumeBuilder.css */
+
+/* --- Color Variables (consistent with your project's theme) --- */
+:root {
+    --color-primary: #5a2e98;         /* Deep Violet (Dark Purple) */
+    --color-secondary: #8c42f4;       /* Vibrant Purple */
+    --color-accent: #e91e63;          /* Pinkish Accent */
+    --color-text-primary: #333;       /* Dark text for readability */
+    --color-text-secondary: #666;     /* Lighter text for secondary info */
+    --color-background: #f0f2f5;      /* Light gray background - base */
+    --color-light-background: #ffffff; /* White background for cards/content */
+    --color-soft-lavender: #f0f2f5; /* Lightest background/border */
+    --color-soft-lavender-dark: #e0e2e6; /* Slightly darker for borders/shadows */
+    --card-background: #ffffff; /* White for card backgrounds */
+    --gradient-light-purple: linear-gradient(135deg, #f6e8ff, #f3d8ff); /* From Dashboard */
+}
+
+/* --- General Layout & Background --- */
+.resume-builder-layout {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 30px 20px;
+    background: var(--gradient-light-purple);
+}
+
+.resume-builder-content-area {
+    max-width: 1400px; /* Wider for two columns */
+    width: 100%;
+    padding: 40px;
+    background: var(--color-light-background);
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.resume-builder-title {
+    color: var(--color-primary); /* Changed to primary color variable */
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2.5em;
+    font-weight: 700;
+    letter-spacing: -0.8px;
+}
+
+/* --- Grid Layout for Builder --- */
+.resume-builder-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    gap: 30px; /* Space between columns */
+}
+
+.resume-forms-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between form cards */
+}
+
+.resume-preview-column {
+    position: sticky; /* Make preview column sticky */
+    top: 20px; /* Adjust as needed for sticky position */
+    align-self: flex-start; /* Align to the top of its grid cell */
+}
+
+/* --- Card Styling --- */
+.resume-card {
+    background: var(--card-background);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    padding: 30px;
+    border: 1px solid var(--color-soft-lavender-dark);
+}
+
+.resume-card .card-title {
+    color: var(--color-primary); /* Changed to primary color variable */
+    margin-bottom: 25px;
+    font-size: 1.4em;
+    font-weight: 700;
+}
+
+/* --- Form Item Styling --- */
+.ant-form-item-label > label {
+    color: var(--color-text-primary);
+    font-weight: 600;
+}
+
+.ant-input,
+.ant-input-number-input,
+.ant-picker,
+.ant-select-selector,
+.ant-input-textarea {
+    border-color: var(--color-soft-lavender-dark) !important;
+    background-color: var(--color-background) !important;
+    color: var(--color-text-primary) !important;
+    border-radius: 6px;
+}
+
+.ant-input:focus,
+.ant-input-number-input:focus,
+.ant-picker-focused,
+.ant-select-focused .ant-select-selector,
+.ant-input-textarea:focus {
+    box-shadow: 0 0 0 2px rgba(140, 66, 244, 0.2) !important; /* Using rgba for light purple */
+    border-color: var(--color-secondary) !important; /* Vibrant Purple */
+}
+
+.save-resume-button {
+    background-color: var(--color-secondary); /* Vibrant Purple */
+    border-color: var(--color-secondary); /* Vibrant Purple */
+    color: #fff;
+    font-weight: 600;
+    padding: 8px 20px;
+    height: auto;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.save-resume-button:hover,
+.save-resume-button:focus {
+    background-color: var(--color-primary); /* Deep Violet */
+    border-color: var(--color-primary); /* Deep Violet */
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dynamic-form-item {
+    border: 1px solid var(--color-soft-lavender-dark);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: var(--color-background);
+    position: relative; /* For positioning delete button */
+}
+
+.dynamic-form-item .ant-input,
+.dynamic-form-item .ant-input-number,
+.dynamic-form-item .ant-picker,
+.dynamic-form-item .ant-select,
+.dynamic-form-item .ant-input-textarea {
+    margin-bottom: 15px;
+}
+
+.dynamic-form-item .ant-input:last-child,
+.dynamic-form-item .ant-input-number:last-child,
+.dynamic-form-item .ant-picker:last-child,
+.dynamic-form-item .ant-select:last-child,
+.dynamic-form-item .ant-input-textarea:last-child {
+    margin-bottom: 0;
+}
+
+.delete-item-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: var(--color-accent); /* Pinkish Accent */
+    font-size: 1.2em;
+}
+
+.delete-item-button:hover {
+    color: var(--color-primary); /* Deep Violet */
+}
+
+/* --- Resume Preview Styling --- */
+.resume-preview-card {
+    min-height: 800px; /* Ensure preview card has a minimum height */
+    overflow-y: auto; /* Enable scrolling for long resumes */
+    padding: 40px; /* More padding for resume content */
+    line-height: 1.5;
+    font-size: 0.95em;
+    color: var(--color-text-primary);
+}
+
+.resume-preview-content {
+    font-family: 'Inter', sans-serif;
+    color: #333;
+    padding: 10px; /* Inner padding for the content */
+}
+
+.resume-section {
+    margin-bottom: 25px; /* Space between sections */
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--color-soft-lavender-dark);
+}
+
+.resume-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.resume-section h1, .resume-section h2 {
+    color: var(--color-primary); /* Deep Violet */
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.resume-section h1 {
+    font-size: 2.2em;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.resume-section h2 {
+    font-size: 1.5em;
+    margin-top: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--color-secondary); /* Vibrant Purple */
+    padding-bottom: 5px;
+    display: inline-block; /* To make border-bottom only span text */
+}
+
+.personal-info-preview {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.personal-info-preview .contact-info,
+.personal-info-preview .links {
+    font-size: 0.9em;
+    color: var(--color-text-secondary);
+    margin-bottom: 5px;
+}
+
+.personal-info-preview a {
+    color: var(--color-secondary); /* Vibrant Purple */
+    text-decoration: none;
+}
+
+.personal-info-preview a:hover {
+    text-decoration: underline;
+}
+
+.summary-objective-preview p {
+    margin-bottom: 0;
+}
+
+.resume-item {
+    margin-bottom: 15px; /* Space between items within a section */
+}
+
+.resume-item .item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 5px;
+}
+
+.resume-item .item-header .ant-typography-strong {
+    font-size: 1.1em;
+    color: var(--color-primary); /* Deep Violet */
+}
+
+.resume-item .item-date {
+    font-size: 0.9em;
+    color: var(--color-text-secondary);
+}
+
+.resume-item .item-subtitle {
+    font-size: 0.95em;
+    color: var(--color-text-primary);
+    display: block; /* Ensure it takes full line */
+    margin-bottom: 5px;
+}
+
+.resume-item .item-description {
+    font-size: 0.9em;
+    color: var(--color-text-secondary);
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+
+.resume-item .item-description-list {
+    list-style-type: disc;
+    margin-left: 20px;
+    padding-left: 0;
+    font-size: 0.9em;
+    color: var(--color-text-secondary);
+    margin-top: 5px;
+}
+
+.resume-item .item-description-list li {
+    margin-bottom: 3px;
+}
+
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Space between skill items */
+}
+
+.skill-item-preview {
+    background-color: var(--color-background);
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 1px solid var(--color-soft-lavender-dark);
+    font-size: 0.9em;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+    .resume-builder-grid {
+        grid-template-columns: 1fr; /* Stack columns on smaller screens */
+    }
+    .resume-preview-column {
+        position: static; /* Remove sticky on smaller screens */
+        top: auto;
+    }
+    .resume-builder-content-area {
+        padding: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .resume-builder-content-area {
+        padding: 20px;
+    }
+    .resume-builder-title {
+        font-size: 2em;
+        margin-bottom: 30px;
+    }
+    .resume-card {
+        padding: 20px;
+    }
+    .resume-card .card-title {
+        font-size: 1.2em;
+    }
+    .dynamic-form-item {
+        padding: 15px;
+    }
+    .resume-preview-card {
+        padding: 25px;
+    }
+    .resume-section h1 {
+        font-size: 1.8em;
+    }
+    .resume-section h2 {
+        font-size: 1.3em;
+    }
+}
+
+@media (max-width: 480px) {
+    .resume-builder-content-area {
+        padding: 15px;
+    }
+    .resume-builder-title {
+        font-size: 1.5em;
+        margin-bottom: 25px;
+    }
+    .resume-card {
+        padding: 15px;
+    }
+    .dynamic-form-item {
+        padding: 10px;
+    }
+    .resume-preview-card {
+        padding: 20px;
+    }
+    .resume-section h1 {
+        font-size: 1.5em;
+    }
+    .resume-section h2 {
+        font-size: 1.1em;
+    }
+    .resume-item .item-header .ant-typography-strong {
+        font-size: 1em;
+    }
+    .resume-item .item-date,
+    .resume-item .item-subtitle,
+    .resume-item .item-description,
+    .resume-item .item-description-list,
+    .skill-item-preview {
+        font-size: 0.85em;
+    }
+}

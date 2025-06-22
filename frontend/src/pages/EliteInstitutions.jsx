@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Layout, Typography, Card, Row, Col, Button, Input, Tag } from 'antd';
-import { BankOutlined, ArrowLeftOutlined, SearchOutlined, LinkOutlined } from '@ant-design/icons'; // Added LinkOutlined
+import { BankOutlined, ArrowLeftOutlined, SearchOutlined, LinkOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import './EliteInstitutions.css';
 
@@ -20,7 +20,7 @@ const institutionsData = [
   {
     name: "University of Ghana (Legon)",
     location: "Accra, Ghana",
-    ranking: "#1 Overall in Ghana",
+    ranking: "#1 Law School",
     programs: "Law, Business, Social Sciences, Medicine",
     website: "https://www.ug.edu.gh",
     tags: ["Ghana", "Comprehensive"]
@@ -58,7 +58,7 @@ const institutionsData = [
     tags: ["Ghana", "Private"]
   },
   {
-    name: "Ghana Communication Technology University (GCTU)", // Corrected name
+    name: "Ghana Communication Technology University (GCTU)",
     location: "Accra, Ghana",
     ranking: "#1 Telecom School",
     programs: "ICT, Communications, Engineering",
@@ -90,7 +90,7 @@ const institutionsData = [
     tags: ["Ghana", "Agriculture"]
   },
   {
-    name: "Regent University College of Science and Technology", // Full name
+    name: "Regent University College of Science and Technology", 
     location: "Accra, Ghana",
     ranking: "Top Private Business School",
     programs: "Business, Theology, Communication",
@@ -110,7 +110,7 @@ const institutionsData = [
     location: "Cambridge, USA",
     ranking: "#1 Worldwide (QS 2023)",
     programs: "Engineering, Computer Science, Physics, Economics",
-    website: "https://web.mit.edu", // Corrected to primary MIT website
+    website: "https://web.mit.edu", 
     tags: ["International", "STEM"]
   },
   {
@@ -126,11 +126,11 @@ const institutionsData = [
     location: "Zurich, Switzerland",
     ranking: "#1 in Europe for Engineering",
     programs: "Engineering, Natural Sciences, Architecture",
-    website: "https://ethz.ch/en/", // Added /en/ for English version
+    website: "https://ethz.ch/en/",
     tags: ["International", "STEM"]
   },
   {
-    name: "Stanford University", // Added a new international institution
+    name: "Stanford University",
     location: "Stanford, USA",
     ranking: "Top 5 Worldwide",
     programs: "Computer Science, Engineering, Business, Law",
@@ -138,7 +138,7 @@ const institutionsData = [
     tags: ["International", "STEM", "Comprehensive"]
   },
   {
-    name: "University of Cambridge", // Added a new international institution
+    name: "University of Cambridge",
     location: "Cambridge, UK",
     ranking: "Top 5 Worldwide",
     programs: "Arts, Humanities, Sciences, Engineering",
@@ -218,7 +218,7 @@ const EliteInstitutions = () => {
                     type="primary" 
                     className="explore-button"
                     onClick={() => handleViewDetailsClick(institution.website)}
-                    icon={<LinkOutlined />} // Added LinkOutlined icon
+                    icon={<LinkOutlined />}
                   >
                     View Details
                   </Button>

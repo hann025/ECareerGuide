@@ -3,7 +3,7 @@ html, body, #root {
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: 'Inter', sans-serif; /* Using Inter font as per instructions */
+    font-family: 'Inter', sans-serif; 
 }
 
 /* Base Styles */
@@ -11,15 +11,15 @@ html, body, #root {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* Changed from height: 100vh to allow content to push height */
+    min-height: 100vh; 
     position: relative;
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    overflow-x: hidden; 
     overflow-y: auto;   /* Allow vertical scrolling for the container */
     background: linear-gradient(135deg, #f6e8ff, #f3d8ff);
-    padding: 20px; /* Added padding to ensure card doesn't touch edges */
+    padding: 20px; 
 }
 
-/* Bubbles Background (matches dashboard) */
+/* Bubbles Background */
 .bubbles-background {
     position: absolute;
     width: 100%;
@@ -61,7 +61,6 @@ html, body, #root {
     box-shadow: 0 8px 32px rgba(167, 119, 227, 0.2);
     z-index: 1;
     transition: all 0.5s ease;
-    /* Added for scrolling */
     max-height: calc(100vh - 40px); /* Max height of card, accounting for container padding */
     overflow-y: auto; /* Enable scrolling within the card */
 }
@@ -125,7 +124,7 @@ html, body, #root {
     padding: 12px 15px;
     border: 1px solid rgba(167, 119, 227, 0.3);
     transition: all 0.3s ease;
-    margin-bottom: 16px; /* This might be redundant if Form.Item handles it */
+    margin-bottom: 16px; 
 }
 
 .signup-form .ant-input-affix-wrapper:hover,

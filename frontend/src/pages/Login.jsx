@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Input, Button, Card, Typography, message, Radio, Spin } from "antd"; // Added Radio, Spin
-import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons"; // Added MailOutlined
-import "./Login.css"; // Assuming you have a Login.css for styling
+import { Input, Button, Card, Typography, message, Radio, Spin } from "antd"; 
+import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons"; 
+import "./Login.css"; 
 
 const { Title, Text } = Typography;
 
