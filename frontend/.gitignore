@@ -33,3 +33,4 @@ backend/node_modules/
 backend/vendor/
 # Any log files specific to your backend (e.g., openai_debug.log)
 backend/*.log
+echo "/backend/vendor/" >> .gitignore
